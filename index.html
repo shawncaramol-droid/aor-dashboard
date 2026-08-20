@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Keeta UAE — AOR Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg: #0f172a;
+    --card-bg: #1e293b;
+    --card-border: #334155;
+    --text: #e2e8f0;
+    --text-muted: #94a3b8;
+    --text-dim: #64748b;
+    --green: #22c55e;
+    --red: #ef4444;
+    --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    line-height: 1.5;
+    padding: 0 0 60px 0;
+  }
+  /* Custom scrollbar */
+  ::-webkit-scrollbar { width: 8px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--card-bg); }
+  ::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+  /* Header */
+  .header {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    border-bottom: 1px solid var(--card-border);
+    padding: 28px 32px;
+  }
+  .header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+  }
+  .header .subtitle {
+    color: var(--text-muted);
+    font-size: 14px;
+    margin-top: 6px;
+  }
+  .header .badge {
+    display: inline-block;
+    background: rgba(59,130,246,0.15);
+    color: #60a5fa;
+    padding: 3px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-left: 8px;
+  }
+  /* AOR Section */
+  .aor-section {
+    margin: 32px;
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--card-bg);
+  }
+  .aor-header {
+    padding: 20px 24px;
+    font-size: 22px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .aor-header .dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+  }
+  .aor-header .sub-count {
+    font-size: 14px;
+    color: var(--text-muted);
+    font-weight: 400;
+  }
+  /* Summary cards */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 16px;
+    padding: 24px;
+  }
+  .sub-card {
+    background: #1a2332;
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    padding: 16px;
+    overflow-x: hidden;
+    min-width: 0;
+  }
+  .sub-card h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--card-border);
+  }
+  .metric-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px 0;
+    border-bottom: 1px solid rgba(51,65,85,0.4);
+    font-size: 13px;
+  }
+  .metric-row:last-child { border-bottom: none; }
+  .metric-label {
+    color: var(--text-muted);
+    flex: 0 0 40%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .metric-value {
+    font-weight: 600;
+    text-align: right;
+    flex: 0 0 18%;
+    font-variant-numeric: tabular-nums;
+  }
+  .metric-shift {
+    font-size: 11px;
+    flex: 0 0 13%;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+  }
+  .metric-spark {
+    flex: 0 0 14%;
+    height: 24px;
+  }
+  .shift-pos { color: var(--green); }
+  .shift-neg { color: var(--red); }
+  .shift-neutral { color: var(--text-dim); }
+  /* Chart area */
+  .chart-area {
+    padding: 24px;
+    border-top: 1px solid var(--card-border);
+  }
+  .chart-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .chart-controls label {
+    font-size: 14px;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+  .chart-controls select {
+    background: #0f172a;
+    color: var(--text);
+    border: 1px solid var(--card-border);
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 14px;
+    font-family: var(--font);
+    cursor: pointer;
+  }
+  .chart-controls select:focus {
+    outline: none;
+    border-color: #3b82f6;
+  }
+  .chart-canvas-wrap {
+    position: relative;
+    height: 360px;
+  }
+  /* Data table */
+  .table-area {
+    padding: 24px;
+    border-top: 1px solid var(--card-border);
+    overflow-x: auto;
+  }
+  .table-area h4 {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--text-muted);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  th, td {
+    padding: 8px 12px;
+    text-align: right;
+    border-bottom: 1px solid var(--card-border);
+    font-variant-numeric: tabular-nums;
+  }
+  th:first-child, td:first-child {
+    text-align: left;
+    font-weight: 500;
+  }
+  th {
+    color: var(--text-muted);
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  tr:hover td {
+    background: rgba(255,255,255,0.03);
+  }
+  /* Footer */
+  .footer {
+    padding: 24px 32px;
+    color: var(--text-dim);
+    font-size: 12px;
+    line-height: 1.6;
+  }
+  .footer p { margin-bottom: 4px; }
+  /* Sparkline */
+  .sparkline {
+    display: block;
+    width: 100%;
+    height: 24px;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Keeta UAE — AOR Dashboard <span class="badge">T-1: Aug 19</span></h1>
+  <div class="subtitle">Last updated: August 19, 2026 &nbsp;·&nbsp; Date window: Aug 6 – Aug 19, 2026 &nbsp;·&nbsp; DoD = Aug 19 vs Aug 18 &nbsp;·&nbsp; WoW = Aug 19 vs Aug 12</div>
+</div>
+
+<div id="dashboard"></div>
+
+<div class="footer">
+  <p><strong>Notes:</strong></p>
+  <p>• Penetration shows "—" because accumulated users are not available yet.</p>
+  <p>• Population Contribution is computed from zone population data where available; Sharjah sub-areas and Zakher (Al Ain) have no population mapping — shown as "—".</p>
+  <p>• DoD shift = T-1 vs T-2. WoW shift = T-1 vs same day last week. Green = positive, red = negative.</p>
+  <p>• Sparklines cover Aug 13–19 (7 days). Data source: AOR dashboard Excel export.</p>
+</div>
+
+<script>
+// ── Embedded data ──────────────────────────────────────────────────────────
+const DATA = {"Dubai": [{"sub_area": "Al Khawaneej Al Mizhar", "display_name": "Al Khawaneej Al Mizhar", "dates": {"20260806": {"talabat_share": 94.32624113475177, "population_contribution": 0.5842801952629728, "installs": 22, "sessions": 2946, "daus": 1630, "total_orders": 423, "s1_orders": 228, "a1_orders": 58, "aov": 57.68593380614657, "total_revenue": 24401.15}, "20260807": {"talabat_share": 94.8905109489051, "population_contribution": 0.5842801952629728, "installs": 25, "sessions": 3126, "daus": 1698, "total_orders": 411, "s1_orders": 255, "a1_orders": 48, "aov": 56.71330900243309, "total_revenue": 23309.17}, "20260808": {"talabat_share": 94.47004608294931, "population_contribution": 0.5842801952629728, "installs": 25, "sessions": 3137, "daus": 1674, "total_orders": 434, "s1_orders": 267, "a1_orders": 56, "aov": 61.84995391705069, "total_revenue": 26842.88}, "20260809": {"talabat_share": 94.53302961275627, "population_contribution": 0.5842801952629728, "installs": 27, "sessions": 2948, "daus": 1662, "total_orders": 439, "s1_orders": 259, "a1_orders": 52, "aov": 60.63339407744875, "total_revenue": 26618.06}, "20260810": {"talabat_share": 94.81132075471699, "population_contribution": 0.5842801952629728, "installs": 25, "sessions": 2894, "daus": 1613, "total_orders": 424, "s1_orders": 270, "a1_orders": 49, "aov": 52.28339622641509, "total_revenue": 22168.16}, "20260811": {"talabat_share": 94.96021220159152, "population_contribution": 0.5842801952629728, "installs": 31, "sessions": 2646, "daus": 1528, "total_orders": 377, "s1_orders": 221, "a1_orders": 51, "aov": 53.93572944297082, "total_revenue": 20333.77}, "20260812": {"talabat_share": 96.22166246851386, "population_contribution": 0.5842801952629728, "installs": 30, "sessions": 2792, "daus": 1612, "total_orders": 397, "s1_orders": 258, "a1_orders": 48, "aov": 53.92654911838791, "total_revenue": 21408.84}, "20260813": {"talabat_share": 95.4054054054054, "population_contribution": 0.5842801952629728, "installs": 24, "sessions": 2762, "daus": 1580, "total_orders": 370, "s1_orders": 230, "a1_orders": 48, "aov": 56.52605405405405, "total_revenue": 20914.64}, "20260814": {"talabat_share": 94.61883408071749, "population_contribution": 0.5842801952629728, "installs": 27, "sessions": 3047, "daus": 1739, "total_orders": 446, "s1_orders": 259, "a1_orders": 58, "aov": 59.34143497757847, "total_revenue": 26466.28}, "20260815": {"talabat_share": 94.4186046511628, "population_contribution": 0.5842801952629728, "installs": 25, "sessions": 3042, "daus": 1716, "total_orders": 430, "s1_orders": 257, "a1_orders": 52, "aov": 57.78067441860465, "total_revenue": 24845.69}, "20260816": {"talabat_share": 95.1063829787234, "population_contribution": 0.5842801952629728, "installs": 27, "sessions": 3101, "daus": 1721, "total_orders": 470, "s1_orders": 293, "a1_orders": 51, "aov": 54.43012765957447, "total_revenue": 25582.16}, "20260817": {"talabat_share": 94, "population_contribution": 0.5842801952629728, "installs": 24, "sessions": 2765, "daus": 1562, "total_orders": 450, "s1_orders": 274, "a1_orders": 68, "aov": 54.67651111111111, "total_revenue": 24604.43}, "20260818": {"talabat_share": 96.54255319148936, "population_contribution": 0.5842801952629728, "installs": 27, "sessions": 2637, "daus": 1521, "total_orders": 376, "s1_orders": 222, "a1_orders": 62, "aov": 55.99444148936171, "total_revenue": 21053.91}, "20260819": {"talabat_share": 94.0809968847352, "population_contribution": 0.5842801952629728, "installs": 18, "sessions": 2623, "daus": 1500, "total_orders": 321, "s1_orders": 185, "a1_orders": 35, "aov": 55.79031152647975, "total_revenue": 17908.69}}}, {"sub_area": "Al Warqa", "display_name": "Al Warqa", "dates": {"20260806": {"talabat_share": 90.46941678520626, "population_contribution": 0.9703655179547108, "installs": 35, "sessions": 5709, "daus": 3004, "total_orders": 1406, "s1_orders": 411, "a1_orders": 393, "aov": 46.08557610241821, "total_revenue": 64796.32}, "20260807": {"talabat_share": 90.35369774919614, "population_contribution": 0.9703655179547108, "installs": 39, "sessions": 6180, "daus": 3278, "total_orders": 1555, "s1_orders": 435, "a1_orders": 411, "aov": 48.04895176848874, "total_revenue": 74716.12}, "20260808": {"talabat_share": 88.25417201540436, "population_contribution": 0.9703655179547108, "installs": 47, "sessions": 6211, "daus": 3371, "total_orders": 1558, "s1_orders": 372, "a1_orders": 427, "aov": 48.59693196405649, "total_revenue": 75714.02}, "20260809": {"talabat_share": 90.50593379138039, "population_contribution": 0.9703655179547108, "installs": 35, "sessions": 6291, "daus": 3414, "total_orders": 1601, "s1_orders": 437, "a1_orders": 442, "aov": 48.20003123048095, "total_revenue": 77168.25}, "20260810": {"talabat_share": 90.77053344623201, "population_contribution": 0.9703655179547108, "installs": 32, "sessions": 5101, "daus": 2762, "total_orders": 1181, "s1_orders": 382, "a1_orders": 340, "aov": 46.76386113463167, "total_revenue": 55228.12}, "20260811": {"talabat_share": 88.86178861788618, "population_contribution": 0.9703655179547108, "installs": 24, "sessions": 5201, "daus": 2879, "total_orders": 1230, "s1_orders": 361, "a1_orders": 318, "aov": 45.82032520325203, "total_revenue": 56359}, "20260812": {"talabat_share": 90.30534351145039, "population_contribution": 0.9703655179547108, "installs": 32, "sessions": 5480, "daus": 3045, "total_orders": 1310, "s1_orders": 386, "a1_orders": 388, "aov": 45.83323664122138, "total_revenue": 60041.54}, "20260813": {"talabat_share": 89.7537728355838, "population_contribution": 0.9703655179547108, "installs": 34, "sessions": 5532, "daus": 3078, "total_orders": 1259, "s1_orders": 376, "a1_orders": 326, "aov": 46.42996822875298, "total_revenue": 58455.33}, "20260814": {"talabat_share": 89.80418636056719, "population_contribution": 0.9703655179547108, "installs": 49, "sessions": 6032, "daus": 3286, "total_orders": 1481, "s1_orders": 404, "a1_orders": 405, "aov": 49.1766239027684, "total_revenue": 72830.58}, "20260815": {"talabat_share": 89.17241379310344, "population_contribution": 0.9703655179547108, "installs": 37, "sessions": 6521, "daus": 3451, "total_orders": 1450, "s1_orders": 402, "a1_orders": 356, "aov": 49.33821379310345, "total_revenue": 71540.41}, "20260816": {"talabat_share": 89.39695162359179, "population_contribution": 0.9703655179547108, "installs": 43, "sessions": 6552, "daus": 3531, "total_orders": 1509, "s1_orders": 408, "a1_orders": 403, "aov": 47.90557322730285, "total_revenue": 72289.51}, "20260817": {"talabat_share": 89.35456831517183, "population_contribution": 0.9703655179547108, "installs": 30, "sessions": 5316, "daus": 2861, "total_orders": 1193, "s1_orders": 318, "a1_orders": 383, "aov": 45.82575020955574, "total_revenue": 54670.12}, "20260818": {"talabat_share": 89.03891977760127, "population_contribution": 0.9703655179547108, "installs": 26, "sessions": 5319, "daus": 2899, "total_orders": 1259, "s1_orders": 359, "a1_orders": 366, "aov": 48.39783955520254, "total_revenue": 60932.88}, "20260819": {"talabat_share": 88.90714872637633, "population_contribution": 0.9703655179547108, "installs": 30, "sessions": 5529, "daus": 3033, "total_orders": 1217, "s1_orders": 369, "a1_orders": 318, "aov": 47.35467543138866, "total_revenue": 57630.64}}}, {"sub_area": "Arabian Ranches", "display_name": "Arabian Ranches", "dates": {"20260806": {"talabat_share": 85.08771929824562, "population_contribution": 0.5463158514161905, "installs": 11, "sessions": 1102, "daus": 589, "total_orders": 114, "s1_orders": 10, "a1_orders": 38, "aov": 57.84245614035088, "total_revenue": 6594.04}, "20260807": {"talabat_share": 87.94326241134752, "population_contribution": 0.5463158514161905, "installs": 10, "sessions": 1345, "daus": 678, "total_orders": 141, "s1_orders": 14, "a1_orders": 50, "aov": 57.68035460992908, "total_revenue": 8132.93}, "20260808": {"talabat_share": 91.42857142857143, "population_contribution": 0.5463158514161905, "installs": 10, "sessions": 1268, "daus": 673, "total_orders": 140, "s1_orders": 15, "a1_orders": 44, "aov": 71.36342857142859, "total_revenue": 9990.880000000001}, "20260809": {"talabat_share": 93.75, "population_contribution": 0.5463158514161905, "installs": 9, "sessions": 1288, "daus": 659, "total_orders": 128, "s1_orders": 10, "a1_orders": 40, "aov": 60.875390625, "total_revenue": 7792.05}, "20260810": {"talabat_share": 86.5979381443299, "population_contribution": 0.5463158514161905, "installs": 11, "sessions": 1018, "daus": 562, "total_orders": 97, "s1_orders": 11, "a1_orders": 35, "aov": 52.55164948453609, "total_revenue": 5097.51}, "20260811": {"talabat_share": 89.36170212765957, "population_contribution": 0.5463158514161905, "installs": 10, "sessions": 1113, "daus": 589, "total_orders": 94, "s1_orders": 10, "a1_orders": 34, "aov": 57.29255319148936, "total_revenue": 5385.5}, "20260812": {"talabat_share": 95.18072289156626, "population_contribution": 0.5463158514161905, "installs": 5, "sessions": 1124, "daus": 593, "total_orders": 83, "s1_orders": 8, "a1_orders": 30, "aov": 54.0210843373494, "total_revenue": 4483.75}, "20260813": {"talabat_share": 85.85858585858585, "population_contribution": 0.5463158514161905, "installs": 11, "sessions": 1157, "daus": 641, "total_orders": 99, "s1_orders": 9, "a1_orders": 30, "aov": 54.49040404040404, "total_revenue": 5394.55}, "20260814": {"talabat_share": 89.42307692307692, "population_contribution": 0.5463158514161905, "installs": 15, "sessions": 1331, "daus": 728, "total_orders": 104, "s1_orders": 11, "a1_orders": 29, "aov": 66.67711538461539, "total_revenue": 6934.42}, "20260815": {"talabat_share": 88.33333333333333, "population_contribution": 0.5463158514161905, "installs": 17, "sessions": 1395, "daus": 737, "total_orders": 120, "s1_orders": 9, "a1_orders": 46, "aov": 66.31408333333334, "total_revenue": 7957.690000000001}, "20260816": {"talabat_share": 88.88888888888889, "population_contribution": 0.5463158514161905, "installs": 13, "sessions": 1182, "daus": 675, "total_orders": 99, "s1_orders": 5, "a1_orders": 35, "aov": 60.66939393939394, "total_revenue": 6006.27}, "20260817": {"talabat_share": 83.87096774193549, "population_contribution": 0.5463158514161905, "installs": 7, "sessions": 1064, "daus": 586, "total_orders": 62, "s1_orders": 8, "a1_orders": 15, "aov": 53.60209677419355, "total_revenue": 3323.33}, "20260818": {"talabat_share": 80.59701492537313, "population_contribution": 0.5463158514161905, "installs": 9, "sessions": 1134, "daus": 616, "total_orders": 67, "s1_orders": 6, "a1_orders": 26, "aov": 53.92791044776119, "total_revenue": 3613.17}, "20260819": {"talabat_share": 80.55555555555556, "population_contribution": 0.5463158514161905, "installs": 12, "sessions": 1094, "daus": 630, "total_orders": 72, "s1_orders": 5, "a1_orders": 18, "aov": 49.85041666666667, "total_revenue": 3589.23}}}, {"sub_area": "Barsha South - Arjan", "display_name": "Barsha South - Arjan", "dates": {"20260806": {"talabat_share": 87.28668941979522, "population_contribution": 0.7875559906023667, "installs": 11, "sessions": 2465, "daus": 1354, "total_orders": 1172, "s1_orders": 110, "a1_orders": 366, "aov": 45.91174914675768, "total_revenue": 53808.57}, "20260807": {"talabat_share": 86.1413043478261, "population_contribution": 0.7875559906023667, "installs": 17, "sessions": 2837, "daus": 1509, "total_orders": 1104, "s1_orders": 94, "a1_orders": 286, "aov": 48.01432065217391, "total_revenue": 53007.81}, "20260808": {"talabat_share": 83.58092259577795, "population_contribution": 0.7875559906023667, "installs": 12, "sessions": 3109, "daus": 1616, "total_orders": 1279, "s1_orders": 132, "a1_orders": 327, "aov": 49.73245504300235, "total_revenue": 63607.81}, "20260809": {"talabat_share": 84.42211055276383, "population_contribution": 0.7875559906023667, "installs": 12, "sessions": 2957, "daus": 1578, "total_orders": 1194, "s1_orders": 99, "a1_orders": 313, "aov": 49.69278894472362, "total_revenue": 59333.19}, "20260810": {"talabat_share": 85.58476881233001, "population_contribution": 0.7875559906023667, "installs": 12, "sessions": 2260, "daus": 1290, "total_orders": 1103, "s1_orders": 104, "a1_orders": 311, "aov": 45.75513145965549, "total_revenue": 50467.91}, "20260811": {"talabat_share": 86.29107981220658, "population_contribution": 0.7875559906023667, "installs": 9, "sessions": 2442, "daus": 1338, "total_orders": 1065, "s1_orders": 84, "a1_orders": 294, "aov": 43.51815962441315, "total_revenue": 46346.84}, "20260812": {"talabat_share": 86.68341708542714, "population_contribution": 0.7875559906023667, "installs": 14, "sessions": 2488, "daus": 1352, "total_orders": 1194, "s1_orders": 96, "a1_orders": 377, "aov": 46.53361809045226, "total_revenue": 55561.14}, "20260813": {"talabat_share": 86.54004954582989, "population_contribution": 0.7875559906023667, "installs": 12, "sessions": 2688, "daus": 1471, "total_orders": 1211, "s1_orders": 92, "a1_orders": 365, "aov": 46.97037985136252, "total_revenue": 56881.13}, "20260814": {"talabat_share": 86.37450199203187, "population_contribution": 0.7875559906023667, "installs": 12, "sessions": 2788, "daus": 1527, "total_orders": 1255, "s1_orders": 115, "a1_orders": 337, "aov": 48.65025498007968, "total_revenue": 61056.07}, "20260815": {"talabat_share": 85, "population_contribution": 0.7875559906023667, "installs": 11, "sessions": 3026, "daus": 1600, "total_orders": 1280, "s1_orders": 109, "a1_orders": 365, "aov": 51.3326796875, "total_revenue": 65705.83}, "20260816": {"talabat_share": 87.42949234488316, "population_contribution": 0.7875559906023667, "installs": 9, "sessions": 2811, "daus": 1538, "total_orders": 1241, "s1_orders": 100, "a1_orders": 336, "aov": 48.18842868654311, "total_revenue": 59801.84}, "20260817": {"talabat_share": 87.03878902554399, "population_contribution": 0.7875559906023667, "installs": 15, "sessions": 2380, "daus": 1326, "total_orders": 1057, "s1_orders": 87, "a1_orders": 309, "aov": 45.4583632923368, "total_revenue": 48049.49}, "20260818": {"talabat_share": 86.37083993660856, "population_contribution": 0.7875559906023667, "installs": 10, "sessions": 2694, "daus": 1403, "total_orders": 1262, "s1_orders": 114, "a1_orders": 393, "aov": 45.57143423137877, "total_revenue": 57511.15}, "20260819": {"talabat_share": 84.68118195956454, "population_contribution": 0.7875559906023667, "installs": 10, "sessions": 2585, "daus": 1400, "total_orders": 1286, "s1_orders": 126, "a1_orders": 373, "aov": 46.5148833592535, "total_revenue": 59818.14}}}, {"sub_area": "Business Bay 1", "display_name": "Business Bay 1", "dates": {"20260806": {"talabat_share": 85.90211833455076, "population_contribution": 0.20967879495028863, "installs": 38, "sessions": 4709, "daus": 2579, "total_orders": 1369, "s1_orders": 127, "a1_orders": 350, "aov": 49.14450693937181, "total_revenue": 67278.83}, "20260807": {"talabat_share": 83.38960162052668, "population_contribution": 0.20967879495028863, "installs": 39, "sessions": 5197, "daus": 2726, "total_orders": 1481, "s1_orders": 132, "a1_orders": 323, "aov": 51.87223497636732, "total_revenue": 76822.78}, "20260808": {"talabat_share": 82.78829604130809, "population_contribution": 0.20967879495028863, "installs": 48, "sessions": 3374, "daus": 1767, "total_orders": 1162, "s1_orders": 112, "a1_orders": 244, "aov": 52.92343373493976, "total_revenue": 61497.03}, "20260809": {"talabat_share": 84.39922480620154, "population_contribution": 0.20967879495028863, "installs": 25, "sessions": 2625, "daus": 1364, "total_orders": 1032, "s1_orders": 85, "a1_orders": 244, "aov": 48.59733527131783, "total_revenue": 50152.45}, "20260810": {"talabat_share": 84.17533432392274, "population_contribution": 0.20967879495028863, "installs": 44, "sessions": 4176, "daus": 2322, "total_orders": 1346, "s1_orders": 141, "a1_orders": 356, "aov": 47.31593610698366, "total_revenue": 63687.25}, "20260811": {"talabat_share": 85.06224066390041, "population_contribution": 0.20967879495028863, "installs": 45, "sessions": 4379, "daus": 2453, "total_orders": 1446, "s1_orders": 152, "a1_orders": 386, "aov": 46.26984094052559, "total_revenue": 66906.19}, "20260812": {"talabat_share": 86.18205631958088, "population_contribution": 0.20967879495028863, "installs": 43, "sessions": 4718, "daus": 2527, "total_orders": 1527, "s1_orders": 149, "a1_orders": 453, "aov": 47.71550753110674, "total_revenue": 72861.58}, "20260813": {"talabat_share": 85.31611148878314, "population_contribution": 0.20967879495028863, "installs": 41, "sessions": 4797, "daus": 2590, "total_orders": 1471, "s1_orders": 141, "a1_orders": 405, "aov": 45.21831407205983, "total_revenue": 66516.14}, "20260814": {"talabat_share": 84.77315102548167, "population_contribution": 0.20967879495028863, "installs": 60, "sessions": 4918, "daus": 2636, "total_orders": 1609, "s1_orders": 133, "a1_orders": 444, "aov": 49.40072715972654, "total_revenue": 79485.77}, "20260815": {"talabat_share": 82.20064724919094, "population_contribution": 0.20967879495028863, "installs": 29, "sessions": 3321, "daus": 1788, "total_orders": 1236, "s1_orders": 123, "a1_orders": 274, "aov": 51.26325242718447, "total_revenue": 63361.38}, "20260816": {"talabat_share": 80.4524886877828, "population_contribution": 0.20967879495028863, "installs": 42, "sessions": 2671, "daus": 1362, "total_orders": 1105, "s1_orders": 82, "a1_orders": 229, "aov": 49.72923076923077, "total_revenue": 54950.8}, "20260817": {"talabat_share": 83.7345003646973, "population_contribution": 0.20967879495028863, "installs": 26, "sessions": 4156, "daus": 2399, "total_orders": 1371, "s1_orders": 119, "a1_orders": 346, "aov": 45.05943107221007, "total_revenue": 61776.48}, "20260818": {"talabat_share": 84.23457730388424, "population_contribution": 0.20967879495028863, "installs": 39, "sessions": 4361, "daus": 2402, "total_orders": 1313, "s1_orders": 111, "a1_orders": 343, "aov": 47.49064737242955, "total_revenue": 62355.22}, "20260819": {"talabat_share": 85.31157270029674, "population_contribution": 0.20967879495028863, "installs": 38, "sessions": 4278, "daus": 2384, "total_orders": 1348, "s1_orders": 114, "a1_orders": 349, "aov": 47.18067507418398, "total_revenue": 63599.55}}}, {"sub_area": "Business Bay 2", "display_name": "Business Bay 2", "dates": {"20260806": {"talabat_share": 84.65227817745803, "population_contribution": 0.20967879495028863, "installs": 54, "sessions": 4439, "daus": 2462, "total_orders": 1251, "s1_orders": 137, "a1_orders": 271, "aov": 48.06908872901678, "total_revenue": 60134.43}, "20260807": {"talabat_share": 83.38870431893687, "population_contribution": 0.20967879495028863, "installs": 36, "sessions": 4631, "daus": 2513, "total_orders": 1204, "s1_orders": 127, "a1_orders": 217, "aov": 50.27831395348838, "total_revenue": 60535.09}, "20260808": {"talabat_share": 85.85313174946005, "population_contribution": 0.20967879495028863, "installs": 35, "sessions": 3867, "daus": 2045, "total_orders": 926, "s1_orders": 91, "a1_orders": 164, "aov": 50.36589632829374, "total_revenue": 46638.82}, "20260809": {"talabat_share": 83.13253012048193, "population_contribution": 0.20967879495028863, "installs": 34, "sessions": 3285, "daus": 1707, "total_orders": 913, "s1_orders": 98, "a1_orders": 188, "aov": 52.34516976998905, "total_revenue": 47791.14}, "20260810": {"talabat_share": 85.50046772684752, "population_contribution": 0.20967879495028863, "installs": 38, "sessions": 4042, "daus": 2192, "total_orders": 1069, "s1_orders": 118, "a1_orders": 252, "aov": 47.6054536950421, "total_revenue": 50890.23}, "20260811": {"talabat_share": 85.79136690647482, "population_contribution": 0.20967879495028863, "installs": 48, "sessions": 4187, "daus": 2274, "total_orders": 1112, "s1_orders": 113, "a1_orders": 261, "aov": 46.60367805755396, "total_revenue": 51823.29}, "20260812": {"talabat_share": 84.21052631578948, "population_contribution": 0.20967879495028863, "installs": 48, "sessions": 4398, "daus": 2365, "total_orders": 1197, "s1_orders": 131, "a1_orders": 237, "aov": 47.09177109440267, "total_revenue": 56368.85}, "20260813": {"talabat_share": 85, "population_contribution": 0.20967879495028863, "installs": 37, "sessions": 4394, "daus": 2386, "total_orders": 1420, "s1_orders": 159, "a1_orders": 298, "aov": 45.72398591549296, "total_revenue": 64928.06}, "20260814": {"talabat_share": 84.78425435276306, "population_contribution": 0.20967879495028863, "installs": 38, "sessions": 4668, "daus": 2457, "total_orders": 1321, "s1_orders": 114, "a1_orders": 259, "aov": 48.84420136260409, "total_revenue": 64523.19}, "20260815": {"talabat_share": 84.71111111111111, "population_contribution": 0.20967879495028863, "installs": 42, "sessions": 4041, "daus": 2129, "total_orders": 1125, "s1_orders": 85, "a1_orders": 237, "aov": 48.95020444444445, "total_revenue": 55068.98}, "20260816": {"talabat_share": 84.56501403180543, "population_contribution": 0.20967879495028863, "installs": 47, "sessions": 3189, "daus": 1659, "total_orders": 1069, "s1_orders": 100, "a1_orders": 220, "aov": 50.13352666043031, "total_revenue": 53592.74}, "20260817": {"talabat_share": 83.06104901117799, "population_contribution": 0.20967879495028863, "installs": 28, "sessions": 3788, "daus": 2111, "total_orders": 1163, "s1_orders": 119, "a1_orders": 267, "aov": 47.72476354256234, "total_revenue": 55503.9}, "20260818": {"talabat_share": 83.34735071488646, "population_contribution": 0.20967879495028863, "installs": 36, "sessions": 4104, "daus": 2152, "total_orders": 1189, "s1_orders": 130, "a1_orders": 266, "aov": 46.39247266610597, "total_revenue": 55160.65}, "20260819": {"talabat_share": 86.41221374045801, "population_contribution": 0.20967879495028863, "installs": 42, "sessions": 4140, "daus": 2250, "total_orders": 1310, "s1_orders": 131, "a1_orders": 317, "aov": 47.02578625954198, "total_revenue": 61603.78}}}, {"sub_area": "Creek Harbor", "display_name": "Creek Harbor", "dates": {"20260806": {"talabat_share": 89.77272727272727, "population_contribution": 0.2846094442429645, "installs": 19, "sessions": 1809, "daus": 993, "total_orders": 440, "s1_orders": 70, "a1_orders": 127, "aov": 51.41845454545454, "total_revenue": 22624.12}, "20260807": {"talabat_share": 86.78038379530916, "population_contribution": 0.2846094442429645, "installs": 10, "sessions": 1991, "daus": 1097, "total_orders": 469, "s1_orders": 60, "a1_orders": 119, "aov": 58.12061833688699, "total_revenue": 27258.57}, "20260808": {"talabat_share": 87.66859344894027, "population_contribution": 0.2846094442429645, "installs": 27, "sessions": 1987, "daus": 1127, "total_orders": 519, "s1_orders": 68, "a1_orders": 128, "aov": 57.97965317919076, "total_revenue": 30091.44}, "20260809": {"talabat_share": 88.54625550660793, "population_contribution": 0.2846094442429645, "installs": 21, "sessions": 1734, "daus": 967, "total_orders": 454, "s1_orders": 57, "a1_orders": 106, "aov": 56.75022026431719, "total_revenue": 25764.6}, "20260810": {"talabat_share": 85.51532033426184, "population_contribution": 0.2846094442429645, "installs": 15, "sessions": 1778, "daus": 951, "total_orders": 359, "s1_orders": 66, "a1_orders": 95, "aov": 55.87874651810585, "total_revenue": 20060.47}, "20260811": {"talabat_share": 88.62433862433862, "population_contribution": 0.2846094442429645, "installs": 11, "sessions": 1662, "daus": 932, "total_orders": 378, "s1_orders": 70, "a1_orders": 101, "aov": 52.78037037037037, "total_revenue": 19950.98}, "20260812": {"talabat_share": 87.91469194312796, "population_contribution": 0.2846094442429645, "installs": 16, "sessions": 1742, "daus": 955, "total_orders": 422, "s1_orders": 66, "a1_orders": 110, "aov": 51.46585308056872, "total_revenue": 21718.59}, "20260813": {"talabat_share": 89.08296943231441, "population_contribution": 0.2846094442429645, "installs": 19, "sessions": 1931, "daus": 1081, "total_orders": 458, "s1_orders": 64, "a1_orders": 138, "aov": 54.52888646288209, "total_revenue": 24974.23}, "20260814": {"talabat_share": 86.09271523178808, "population_contribution": 0.2846094442429645, "installs": 19, "sessions": 1875, "daus": 1028, "total_orders": 453, "s1_orders": 60, "a1_orders": 110, "aov": 54.15039735099338, "total_revenue": 24530.13}, "20260815": {"talabat_share": 86.5429234338747, "population_contribution": 0.2846094442429645, "installs": 16, "sessions": 1889, "daus": 1059, "total_orders": 431, "s1_orders": 69, "a1_orders": 83, "aov": 57.38301624129931, "total_revenue": 24732.08}, "20260816": {"talabat_share": 86.77494199535963, "population_contribution": 0.2846094442429645, "installs": 15, "sessions": 1754, "daus": 923, "total_orders": 431, "s1_orders": 75, "a1_orders": 89, "aov": 56.74890951276102, "total_revenue": 24458.78}, "20260817": {"talabat_share": 84.92462311557789, "population_contribution": 0.2846094442429645, "installs": 19, "sessions": 1662, "daus": 934, "total_orders": 398, "s1_orders": 53, "a1_orders": 97, "aov": 52.6614824120603, "total_revenue": 20959.27}, "20260818": {"talabat_share": 85.71428571428571, "population_contribution": 0.2846094442429645, "installs": 6, "sessions": 1841, "daus": 1003, "total_orders": 364, "s1_orders": 64, "a1_orders": 92, "aov": 53.68087912087912, "total_revenue": 19539.84}, "20260819": {"talabat_share": 88.28337874659401, "population_contribution": 0.2846094442429645, "installs": 23, "sessions": 1693, "daus": 958, "total_orders": 367, "s1_orders": 66, "a1_orders": 99, "aov": 54.74825613079019, "total_revenue": 20092.61}}}, {"sub_area": "Damac Hills / Mudon", "display_name": "Damac Hills / Mudon", "dates": {"20260806": {"talabat_share": 85.07462686567165, "population_contribution": 0.4432457038335303, "installs": 7, "sessions": 1467, "daus": 783, "total_orders": 67, "s1_orders": 4, "a1_orders": 10, "aov": 49.51074626865672, "total_revenue": 3317.22}, "20260807": {"talabat_share": 83.75, "population_contribution": 0.4432457038335303, "installs": 14, "sessions": 1593, "daus": 863, "total_orders": 80, "s1_orders": 2, "a1_orders": 22, "aov": 51.366, "total_revenue": 4109.28}, "20260808": {"talabat_share": 86.5979381443299, "population_contribution": 0.4432457038335303, "installs": 15, "sessions": 1821, "daus": 901, "total_orders": 97, "s1_orders": 5, "a1_orders": 17, "aov": 53.91845360824743, "total_revenue": 5230.09}, "20260809": {"talabat_share": 77.02702702702703, "population_contribution": 0.4432457038335303, "installs": 10, "sessions": 1609, "daus": 844, "total_orders": 74, "s1_orders": 3, "a1_orders": 15, "aov": 48.97337837837838, "total_revenue": 3624.03}, "20260810": {"talabat_share": 86.36363636363636, "population_contribution": 0.4432457038335303, "installs": 5, "sessions": 1210, "daus": 664, "total_orders": 44, "s1_orders": 4, "a1_orders": 9, "aov": 53.75886363636364, "total_revenue": 2365.39}, "20260811": {"talabat_share": 85.41666666666667, "population_contribution": 0.4432457038335303, "installs": 12, "sessions": 1337, "daus": 722, "total_orders": 48, "s1_orders": 2, "a1_orders": 12, "aov": 47.86520833333334, "total_revenue": 2297.53}, "20260812": {"talabat_share": 81.03448275862068, "population_contribution": 0.4432457038335303, "installs": 10, "sessions": 1442, "daus": 760, "total_orders": 58, "s1_orders": 5, "a1_orders": 11, "aov": 51.44, "total_revenue": 2983.52}, "20260813": {"talabat_share": 88.88888888888889, "population_contribution": 0.4432457038335303, "installs": 4, "sessions": 1515, "daus": 841, "total_orders": 45, "s1_orders": 4, "a1_orders": 12, "aov": 51.09555555555556, "total_revenue": 2299.3}, "20260814": {"talabat_share": 83.33333333333333, "population_contribution": 0.4432457038335303, "installs": 14, "sessions": 1665, "daus": 888, "total_orders": 84, "s1_orders": 9, "a1_orders": 22, "aov": 50.39714285714285, "total_revenue": 4233.36}, "20260815": {"talabat_share": 86.81318681318682, "population_contribution": 0.4432457038335303, "installs": 15, "sessions": 1736, "daus": 912, "total_orders": 91, "s1_orders": 4, "a1_orders": 18, "aov": 52.47000000000001, "total_revenue": 4774.77}, "20260816": {"talabat_share": 94.73684210526316, "population_contribution": 0.4432457038335303, "installs": 16, "sessions": 1691, "daus": 869, "total_orders": 76, "s1_orders": 5, "a1_orders": 19, "aov": 45.38802631578947, "total_revenue": 3449.49}, "20260817": {"talabat_share": 75.67567567567568, "population_contribution": 0.4432457038335303, "installs": 11, "sessions": 1435, "daus": 778, "total_orders": 37, "s1_orders": 3, "a1_orders": 8, "aov": 56.6554054054054, "total_revenue": 2096.25}, "20260818": {"talabat_share": 82.6086956521739, "population_contribution": 0.4432457038335303, "installs": 10, "sessions": 1495, "daus": 827, "total_orders": 46, "s1_orders": 2, "a1_orders": 16, "aov": 50.31021739130435, "total_revenue": 2314.27}, "20260819": {"talabat_share": 82.6923076923077, "population_contribution": 0.4432457038335303, "installs": 7, "sessions": 1406, "daus": 785, "total_orders": 52, "s1_orders": 5, "a1_orders": 12, "aov": 55.79576923076923, "total_revenue": 2901.38}}}, {"sub_area": "Downtown", "display_name": "Downtown", "dates": {"20260806": {"talabat_share": 81.45285935085008, "population_contribution": 0.3878351302777113, "installs": 44, "sessions": 3516, "daus": 1916, "total_orders": 647, "s1_orders": 63, "a1_orders": 121, "aov": 52.8502627511592, "total_revenue": 34194.12}, "20260807": {"talabat_share": 85.19083969465649, "population_contribution": 0.3878351302777113, "installs": 43, "sessions": 3635, "daus": 2004, "total_orders": 655, "s1_orders": 56, "a1_orders": 122, "aov": 52.88586259541984, "total_revenue": 34640.24}, "20260808": {"talabat_share": 84.69184890656064, "population_contribution": 0.3878351302777113, "installs": 32, "sessions": 3148, "daus": 1741, "total_orders": 503, "s1_orders": 72, "a1_orders": 93, "aov": 58.49886679920477, "total_revenue": 29424.93}, "20260809": {"talabat_share": 82.44274809160305, "population_contribution": 0.3878351302777113, "installs": 39, "sessions": 2922, "daus": 1565, "total_orders": 524, "s1_orders": 41, "a1_orders": 90, "aov": 55.40099236641221, "total_revenue": 29030.12}, "20260810": {"talabat_share": 86.04240282685512, "population_contribution": 0.3878351302777113, "installs": 23, "sessions": 3117, "daus": 1780, "total_orders": 566, "s1_orders": 57, "a1_orders": 139, "aov": 53.3832332155477, "total_revenue": 30214.91}, "20260811": {"talabat_share": 85.16746411483254, "population_contribution": 0.3878351302777113, "installs": 33, "sessions": 3234, "daus": 1869, "total_orders": 627, "s1_orders": 66, "a1_orders": 131, "aov": 55.4339393939394, "total_revenue": 34757.08}, "20260812": {"talabat_share": 86.58718330849479, "population_contribution": 0.3878351302777113, "installs": 35, "sessions": 3342, "daus": 1929, "total_orders": 671, "s1_orders": 84, "a1_orders": 151, "aov": 53.47815201192251, "total_revenue": 35883.84}, "20260813": {"talabat_share": 85.19083969465649, "population_contribution": 0.3878351302777113, "installs": 31, "sessions": 3323, "daus": 1878, "total_orders": 655, "s1_orders": 67, "a1_orders": 151, "aov": 53.26393893129771, "total_revenue": 34887.88}, "20260814": {"talabat_share": 85.31810766721044, "population_contribution": 0.3878351302777113, "installs": 32, "sessions": 3381, "daus": 1927, "total_orders": 613, "s1_orders": 67, "a1_orders": 129, "aov": 55.88137030995106, "total_revenue": 34255.28}, "20260815": {"talabat_share": 84.35251798561151, "population_contribution": 0.3878351302777113, "installs": 45, "sessions": 3164, "daus": 1816, "total_orders": 556, "s1_orders": 53, "a1_orders": 125, "aov": 63.4273381294964, "total_revenue": 35265.6}, "20260816": {"talabat_share": 80.55555555555556, "population_contribution": 0.3878351302777113, "installs": 33, "sessions": 2760, "daus": 1542, "total_orders": 504, "s1_orders": 48, "a1_orders": 104, "aov": 53.73910714285714, "total_revenue": 27084.51}, "20260817": {"talabat_share": 87.06896551724138, "population_contribution": 0.3878351302777113, "installs": 37, "sessions": 2971, "daus": 1670, "total_orders": 580, "s1_orders": 71, "a1_orders": 118, "aov": 51.56646551724138, "total_revenue": 29908.55}, "20260818": {"talabat_share": 86.27450980392157, "population_contribution": 0.3878351302777113, "installs": 43, "sessions": 3123, "daus": 1810, "total_orders": 612, "s1_orders": 63, "a1_orders": 154, "aov": 50.77571895424837, "total_revenue": 31074.74}, "20260819": {"talabat_share": 84.90566037735849, "population_contribution": 0.3878351302777113, "installs": 32, "sessions": 3129, "daus": 1771, "total_orders": 636, "s1_orders": 67, "a1_orders": 141, "aov": 51.46103773584906, "total_revenue": 32729.22}}}, {"sub_area": "Mirdif", "display_name": "Mirdif", "dates": {"20260806": {"talabat_share": 92.54901960784314, "population_contribution": 0.9609035954527815, "installs": 21, "sessions": 4244, "daus": 2335, "total_orders": 1275, "s1_orders": 385, "a1_orders": 348, "aov": 52.54337254901961, "total_revenue": 66992.8}, "20260807": {"talabat_share": 91.441111923921, "population_contribution": 0.9609035954527815, "installs": 28, "sessions": 4638, "daus": 2543, "total_orders": 1367, "s1_orders": 451, "a1_orders": 385, "aov": 56.25264813460132, "total_revenue": 76897.37}, "20260808": {"talabat_share": 92.09237228831351, "population_contribution": 0.9609035954527815, "installs": 32, "sessions": 4963, "daus": 2744, "total_orders": 1429, "s1_orders": 411, "a1_orders": 405, "aov": 57.00641707487753, "total_revenue": 81462.17}, "20260809": {"talabat_share": 93.06569343065694, "population_contribution": 0.9609035954527815, "installs": 29, "sessions": 4935, "daus": 2791, "total_orders": 1370, "s1_orders": 433, "a1_orders": 377, "aov": 55.73020437956205, "total_revenue": 76350.38}, "20260810": {"talabat_share": 92.57981018119068, "population_contribution": 0.9609035954527815, "installs": 24, "sessions": 3801, "daus": 2113, "total_orders": 1159, "s1_orders": 355, "a1_orders": 311, "aov": 53.33204486626403, "total_revenue": 61811.84}, "20260811": {"talabat_share": 89.97555012224939, "population_contribution": 0.9609035954527815, "installs": 24, "sessions": 3978, "daus": 2220, "total_orders": 1227, "s1_orders": 373, "a1_orders": 351, "aov": 53.53709861450693, "total_revenue": 65690.02}, "20260812": {"talabat_share": 92.8400954653938, "population_contribution": 0.9609035954527815, "installs": 25, "sessions": 4093, "daus": 2269, "total_orders": 1257, "s1_orders": 423, "a1_orders": 346, "aov": 52.191861575179, "total_revenue": 65605.17}, "20260813": {"talabat_share": 92.82477341389728, "population_contribution": 0.9609035954527815, "installs": 29, "sessions": 4021, "daus": 2221, "total_orders": 1324, "s1_orders": 384, "a1_orders": 391, "aov": 52.93012839879155, "total_revenue": 70079.49}, "20260814": {"talabat_share": 92.21140472878999, "population_contribution": 0.9609035954527815, "installs": 29, "sessions": 4600, "daus": 2584, "total_orders": 1438, "s1_orders": 425, "a1_orders": 400, "aov": 54.99136995827538, "total_revenue": 79077.59}, "20260815": {"talabat_share": 92.57328990228012, "population_contribution": 0.9609035954527815, "installs": 25, "sessions": 4846, "daus": 2720, "total_orders": 1535, "s1_orders": 448, "a1_orders": 426, "aov": 55.33784364820847, "total_revenue": 84943.59}, "20260816": {"talabat_share": 92.66980497646267, "population_contribution": 0.9609035954527815, "installs": 25, "sessions": 5075, "daus": 2805, "total_orders": 1487, "s1_orders": 451, "a1_orders": 378, "aov": 54.42132481506388, "total_revenue": 80924.51}, "20260817": {"talabat_share": 91.25102207686018, "population_contribution": 0.9609035954527815, "installs": 22, "sessions": 4057, "daus": 2220, "total_orders": 1223, "s1_orders": 409, "a1_orders": 349, "aov": 51.15670482420278, "total_revenue": 62564.65}, "20260818": {"talabat_share": 92.95665634674923, "population_contribution": 0.9609035954527815, "installs": 18, "sessions": 4203, "daus": 2335, "total_orders": 1292, "s1_orders": 367, "a1_orders": 404, "aov": 53.31578947368421, "total_revenue": 68884}, "20260819": {"talabat_share": 91.84339314845025, "population_contribution": 0.9609035954527815, "installs": 15, "sessions": 4205, "daus": 2323, "total_orders": 1226, "s1_orders": 369, "a1_orders": 338, "aov": 53.26454323001632, "total_revenue": 65302.33}}}, {"sub_area": "Muhaisnah / Al Mizhar", "display_name": "Muhaisnah / Al Mizhar", "dates": {"20260806": {"talabat_share": 90.89820359281437, "population_contribution": 0.691523957976621, "installs": 45, "sessions": 4495, "daus": 2352, "total_orders": 835, "s1_orders": 333, "a1_orders": 160, "aov": 49.84306586826347, "total_revenue": 41618.96}, "20260807": {"talabat_share": 91.17971334068358, "population_contribution": 0.691523957976621, "installs": 40, "sessions": 4571, "daus": 2347, "total_orders": 907, "s1_orders": 364, "a1_orders": 144, "aov": 53.86090407938259, "total_revenue": 48851.84}, "20260808": {"talabat_share": 93.0151338766007, "population_contribution": 0.691523957976621, "installs": 49, "sessions": 4661, "daus": 2371, "total_orders": 859, "s1_orders": 326, "a1_orders": 143, "aov": 53.24451688009313, "total_revenue": 45737.04}, "20260809": {"talabat_share": 89.79370249728557, "population_contribution": 0.691523957976621, "installs": 48, "sessions": 4964, "daus": 2531, "total_orders": 921, "s1_orders": 369, "a1_orders": 145, "aov": 50.56578718783931, "total_revenue": 46571.09}, "20260810": {"talabat_share": 91.8010752688172, "population_contribution": 0.691523957976621, "installs": 35, "sessions": 4364, "daus": 2300, "total_orders": 744, "s1_orders": 350, "a1_orders": 134, "aov": 47.72099462365591, "total_revenue": 35504.42}, "20260811": {"talabat_share": 92.67676767676768, "population_contribution": 0.691523957976621, "installs": 45, "sessions": 4141, "daus": 2322, "total_orders": 792, "s1_orders": 358, "a1_orders": 131, "aov": 48.65190656565656, "total_revenue": 38532.31}, "20260812": {"talabat_share": 92.0343137254902, "population_contribution": 0.691523957976621, "installs": 36, "sessions": 4335, "daus": 2345, "total_orders": 816, "s1_orders": 314, "a1_orders": 153, "aov": 49.77979166666666, "total_revenue": 40620.31}, "20260813": {"talabat_share": 92.0863309352518, "population_contribution": 0.691523957976621, "installs": 51, "sessions": 4491, "daus": 2378, "total_orders": 834, "s1_orders": 387, "a1_orders": 132, "aov": 49.85477218225419, "total_revenue": 41578.88}, "20260814": {"talabat_share": 90.63583815028902, "population_contribution": 0.691523957976621, "installs": 33, "sessions": 4512, "daus": 2432, "total_orders": 865, "s1_orders": 367, "a1_orders": 143, "aov": 52.96961849710983, "total_revenue": 45818.72}, "20260815": {"talabat_share": 92.8395061728395, "population_contribution": 0.691523957976621, "installs": 51, "sessions": 4456, "daus": 2439, "total_orders": 810, "s1_orders": 324, "a1_orders": 125, "aov": 53.04313580246914, "total_revenue": 42964.94}, "20260816": {"talabat_share": 90.82672706681767, "population_contribution": 0.691523957976621, "installs": 56, "sessions": 4652, "daus": 2508, "total_orders": 883, "s1_orders": 344, "a1_orders": 148, "aov": 51.48164212910532, "total_revenue": 45458.29}, "20260817": {"talabat_share": 92.29781771501925, "population_contribution": 0.691523957976621, "installs": 31, "sessions": 4486, "daus": 2370, "total_orders": 779, "s1_orders": 350, "a1_orders": 132, "aov": 48.74749679075739, "total_revenue": 37974.3}, "20260818": {"talabat_share": 92.0881971465629, "population_contribution": 0.691523957976621, "installs": 28, "sessions": 4298, "daus": 2316, "total_orders": 771, "s1_orders": 335, "a1_orders": 154, "aov": 50.03142671854734, "total_revenue": 38574.23}, "20260819": {"talabat_share": 90.39242219215156, "population_contribution": 0.691523957976621, "installs": 39, "sessions": 4255, "daus": 2325, "total_orders": 739, "s1_orders": 317, "a1_orders": 140, "aov": 50.63223274695535, "total_revenue": 37417.22}}}, {"sub_area": "Naad Al Hamar", "display_name": "Naad Al Hamar", "dates": {"20260806": {"talabat_share": 89.2578125, "population_contribution": 0.3653727854888846, "installs": 17, "sessions": 2150, "daus": 1192, "total_orders": 512, "s1_orders": 154, "a1_orders": 119, "aov": 49.1194921875, "total_revenue": 25149.18}, "20260807": {"talabat_share": 86.27450980392157, "population_contribution": 0.3653727854888846, "installs": 20, "sessions": 2376, "daus": 1283, "total_orders": 561, "s1_orders": 156, "a1_orders": 103, "aov": 50.28263814616756, "total_revenue": 28208.56}, "20260808": {"talabat_share": 85.84729981378027, "population_contribution": 0.3653727854888846, "installs": 16, "sessions": 2333, "daus": 1285, "total_orders": 537, "s1_orders": 140, "a1_orders": 97, "aov": 52.41854748603352, "total_revenue": 28148.76}, "20260809": {"talabat_share": 87.04318936877077, "population_contribution": 0.3653727854888846, "installs": 16, "sessions": 2185, "daus": 1204, "total_orders": 602, "s1_orders": 173, "a1_orders": 123, "aov": 49.08235880398671, "total_revenue": 29547.58}, "20260810": {"talabat_share": 90.33613445378151, "population_contribution": 0.3653727854888846, "installs": 11, "sessions": 2028, "daus": 1140, "total_orders": 476, "s1_orders": 146, "a1_orders": 96, "aov": 47.11216386554621, "total_revenue": 22425.39}, "20260811": {"talabat_share": 88.95833333333333, "population_contribution": 0.3653727854888846, "installs": 8, "sessions": 1927, "daus": 1115, "total_orders": 480, "s1_orders": 160, "a1_orders": 111, "aov": 47.89316666666667, "total_revenue": 22988.72}, "20260812": {"talabat_share": 90.44834307992203, "population_contribution": 0.3653727854888846, "installs": 15, "sessions": 2011, "daus": 1166, "total_orders": 513, "s1_orders": 152, "a1_orders": 123, "aov": 49.30890838206628, "total_revenue": 25295.47}, "20260813": {"talabat_share": 90.36608863198458, "population_contribution": 0.3653727854888846, "installs": 5, "sessions": 2084, "daus": 1208, "total_orders": 519, "s1_orders": 147, "a1_orders": 129, "aov": 49.62333333333333, "total_revenue": 25754.51}, "20260814": {"talabat_share": 89.02654867256638, "population_contribution": 0.3653727854888846, "installs": 9, "sessions": 2256, "daus": 1280, "total_orders": 565, "s1_orders": 146, "a1_orders": 137, "aov": 50.81332743362832, "total_revenue": 28709.53}, "20260815": {"talabat_share": 89.38356164383562, "population_contribution": 0.3653727854888846, "installs": 11, "sessions": 2188, "daus": 1273, "total_orders": 584, "s1_orders": 158, "a1_orders": 123, "aov": 52.52794520547945, "total_revenue": 30676.32}, "20260816": {"talabat_share": 85.89511754068717, "population_contribution": 0.3653727854888846, "installs": 11, "sessions": 2215, "daus": 1212, "total_orders": 553, "s1_orders": 151, "a1_orders": 107, "aov": 49.12533453887885, "total_revenue": 27166.31}, "20260817": {"talabat_share": 89.1891891891892, "population_contribution": 0.3653727854888846, "installs": 7, "sessions": 1982, "daus": 1105, "total_orders": 481, "s1_orders": 155, "a1_orders": 116, "aov": 47.59567567567568, "total_revenue": 22893.52}, "20260818": {"talabat_share": 88.52140077821012, "population_contribution": 0.3653727854888846, "installs": 12, "sessions": 2056, "daus": 1143, "total_orders": 514, "s1_orders": 155, "a1_orders": 119, "aov": 47.46628404669261, "total_revenue": 24397.67}, "20260819": {"talabat_share": 88.17829457364341, "population_contribution": 0.3653727854888846, "installs": 13, "sessions": 2015, "daus": 1122, "total_orders": 516, "s1_orders": 141, "a1_orders": 119, "aov": 48.19697674418605, "total_revenue": 24869.64}}}], "Abu Dhabi": [{"sub_area": "AI Falah", "display_name": "Al Falah", "dates": {"20260806": {"talabat_share": 95.23809523809524, "population_contribution": 1.0628460892578147, "installs": 32, "sessions": 3374, "daus": 1803, "total_orders": 798, "s1_orders": 477, "a1_orders": 104, "aov": 49.44442355889724, "total_revenue": 39456.65}, "20260807": {"talabat_share": 94.21813403416557, "population_contribution": 1.0628460892578147, "installs": 26, "sessions": 3472, "daus": 1880, "total_orders": 761, "s1_orders": 454, "a1_orders": 116, "aov": 50.41089356110381, "total_revenue": 38362.69}, "20260808": {"talabat_share": 94.37340153452685, "population_contribution": 1.0628460892578147, "installs": 33, "sessions": 3605, "daus": 1871, "total_orders": 782, "s1_orders": 454, "a1_orders": 112, "aov": 52.0590537084399, "total_revenue": 40710.18}, "20260809": {"talabat_share": 95.20295202952029, "population_contribution": 1.0628460892578147, "installs": 20, "sessions": 3631, "daus": 1868, "total_orders": 813, "s1_orders": 493, "a1_orders": 116, "aov": 51.47210332103321, "total_revenue": 41846.82}, "20260810": {"talabat_share": 95.3757225433526, "population_contribution": 1.0628460892578147, "installs": 17, "sessions": 3444, "daus": 1822, "total_orders": 692, "s1_orders": 411, "a1_orders": 93, "aov": 50.04748554913295, "total_revenue": 34632.86}, "20260811": {"talabat_share": 94.88559892328398, "population_contribution": 1.0628460892578147, "installs": 17, "sessions": 3553, "daus": 1858, "total_orders": 743, "s1_orders": 436, "a1_orders": 103, "aov": 48.95329744279947, "total_revenue": 36372.3}, "20260812": {"talabat_share": 95.49929676511955, "population_contribution": 1.0628460892578147, "installs": 47, "sessions": 3702, "daus": 1973, "total_orders": 711, "s1_orders": 423, "a1_orders": 112, "aov": 48.7537552742616, "total_revenue": 34663.92}, "20260813": {"talabat_share": 95.27220630372493, "population_contribution": 1.0628460892578147, "installs": 20, "sessions": 3529, "daus": 1895, "total_orders": 698, "s1_orders": 408, "a1_orders": 122, "aov": 52.44309455587393, "total_revenue": 36605.28}, "20260814": {"talabat_share": 94.83204134366925, "population_contribution": 1.0628460892578147, "installs": 25, "sessions": 3413, "daus": 1877, "total_orders": 774, "s1_orders": 460, "a1_orders": 108, "aov": 54.72387596899225, "total_revenue": 42356.28}, "20260815": {"talabat_share": 92.67015706806282, "population_contribution": 1.0628460892578147, "installs": 19, "sessions": 3371, "daus": 1819, "total_orders": 764, "s1_orders": 454, "a1_orders": 114, "aov": 52.78958115183246, "total_revenue": 40331.24}, "20260816": {"talabat_share": 94.73007712082263, "population_contribution": 1.0628460892578147, "installs": 24, "sessions": 3479, "daus": 1879, "total_orders": 778, "s1_orders": 465, "a1_orders": 118, "aov": 53.34087403598972, "total_revenue": 41499.2}, "20260817": {"talabat_share": 94.40242057488653, "population_contribution": 1.0628460892578147, "installs": 20, "sessions": 3194, "daus": 1771, "total_orders": 661, "s1_orders": 401, "a1_orders": 93, "aov": 48.66642965204236, "total_revenue": 32168.51}, "20260818": {"talabat_share": 94.28571428571429, "population_contribution": 1.0628460892578147, "installs": 21, "sessions": 3150, "daus": 1759, "total_orders": 630, "s1_orders": 393, "a1_orders": 90, "aov": 50.19330158730159, "total_revenue": 31621.78}, "20260819": {"talabat_share": 96.00570613409415, "population_contribution": 1.0628460892578147, "installs": 30, "sessions": 3265, "daus": 1785, "total_orders": 701, "s1_orders": 421, "a1_orders": 112, "aov": 49.86815977175464, "total_revenue": 34957.58}}}, {"sub_area": "Al Saadah", "display_name": "Al Saadah", "dates": {"20260806": {"talabat_share": 90.12219959266803, "population_contribution": 1.0369230139100631, "installs": 68, "sessions": 8060, "daus": 4429, "total_orders": 982, "s1_orders": 287, "a1_orders": 281, "aov": 45.28643584521384, "total_revenue": 44471.28}, "20260807": {"talabat_share": 90.53254437869822, "population_contribution": 1.0369230139100631, "installs": 61, "sessions": 7831, "daus": 4160, "total_orders": 1014, "s1_orders": 260, "a1_orders": 279, "aov": 47.47426035502959, "total_revenue": 48138.9}, "20260808": {"talabat_share": 88.13775510204081, "population_contribution": 1.0369230139100631, "installs": 61, "sessions": 7224, "daus": 3709, "total_orders": 784, "s1_orders": 186, "a1_orders": 243, "aov": 47.53198979591837, "total_revenue": 37265.08}, "20260809": {"talabat_share": 86.85082872928177, "population_contribution": 1.0369230139100631, "installs": 59, "sessions": 7249, "daus": 3768, "total_orders": 905, "s1_orders": 244, "a1_orders": 240, "aov": 47.35066298342542, "total_revenue": 42852.35}, "20260810": {"talabat_share": 89.28939237899073, "population_contribution": 1.0369230139100631, "installs": 62, "sessions": 7551, "daus": 4196, "total_orders": 971, "s1_orders": 306, "a1_orders": 271, "aov": 47.89328527291452, "total_revenue": 46504.38}, "20260811": {"talabat_share": 87.56218905472637, "population_contribution": 1.0369230139100631, "installs": 69, "sessions": 7938, "daus": 4346, "total_orders": 1005, "s1_orders": 302, "a1_orders": 261, "aov": 46.67374129353234, "total_revenue": 46907.11}, "20260812": {"talabat_share": 90.68627450980392, "population_contribution": 1.0369230139100631, "installs": 64, "sessions": 8031, "daus": 4464, "total_orders": 1020, "s1_orders": 300, "a1_orders": 270, "aov": 46.0666568627451, "total_revenue": 46987.99}, "20260813": {"talabat_share": 89.1304347826087, "population_contribution": 1.0369230139100631, "installs": 52, "sessions": 8348, "daus": 4498, "total_orders": 1058, "s1_orders": 323, "a1_orders": 281, "aov": 47.52466918714556, "total_revenue": 50281.1}, "20260814": {"talabat_share": 89.32764140875133, "population_contribution": 1.0369230139100631, "installs": 48, "sessions": 7510, "daus": 4072, "total_orders": 937, "s1_orders": 237, "a1_orders": 266, "aov": 47.63137673425827, "total_revenue": 44630.6}, "20260815": {"talabat_share": 88.48920863309353, "population_contribution": 1.0369230139100631, "installs": 50, "sessions": 6784, "daus": 3556, "total_orders": 834, "s1_orders": 200, "a1_orders": 222, "aov": 49.03497601918465, "total_revenue": 40895.17}, "20260816": {"talabat_share": 88.31877729257641, "population_contribution": 1.0369230139100631, "installs": 41, "sessions": 6825, "daus": 3694, "total_orders": 916, "s1_orders": 256, "a1_orders": 252, "aov": 47.46122270742359, "total_revenue": 43474.48}, "20260817": {"talabat_share": 90.28741328047572, "population_contribution": 1.0369230139100631, "installs": 55, "sessions": 7663, "daus": 4225, "total_orders": 1009, "s1_orders": 322, "a1_orders": 246, "aov": 47.22634291377602, "total_revenue": 47651.38}, "20260818": {"talabat_share": 90.5940594059406, "population_contribution": 1.0369230139100631, "installs": 48, "sessions": 7770, "daus": 4257, "total_orders": 1010, "s1_orders": 323, "a1_orders": 275, "aov": 44.71035643564356, "total_revenue": 45157.46}, "20260819": {"talabat_share": 91.07773851590106, "population_contribution": 1.0369230139100631, "installs": 53, "sessions": 8066, "daus": 4485, "total_orders": 1132, "s1_orders": 366, "a1_orders": 296, "aov": 48.41482332155477, "total_revenue": 54805.58}}}, {"sub_area": "Al Shahama", "display_name": "Al Shahama", "dates": {"20260806": {"talabat_share": 91.67803547066849, "population_contribution": null, "installs": 41, "sessions": 4116, "daus": 2192, "total_orders": 733, "s1_orders": 346, "a1_orders": 103, "aov": 50.54260572987722, "total_revenue": 37047.73}, "20260807": {"talabat_share": 92.23560910307899, "population_contribution": null, "installs": 28, "sessions": 4376, "daus": 2293, "total_orders": 747, "s1_orders": 356, "a1_orders": 119, "aov": 53.59334672021419, "total_revenue": 40034.23}, "20260808": {"talabat_share": 93.85026737967914, "population_contribution": null, "installs": 41, "sessions": 4254, "daus": 2273, "total_orders": 748, "s1_orders": 346, "a1_orders": 110, "aov": 52.1517513368984, "total_revenue": 39009.51}, "20260809": {"talabat_share": 90.61696658097686, "population_contribution": null, "installs": 53, "sessions": 4425, "daus": 2302, "total_orders": 778, "s1_orders": 376, "a1_orders": 105, "aov": 52.98105398457584, "total_revenue": 41219.26}, "20260810": {"talabat_share": 93.07086614173228, "population_contribution": null, "installs": 47, "sessions": 3995, "daus": 2076, "total_orders": 635, "s1_orders": 340, "a1_orders": 68, "aov": 50.77270866141733, "total_revenue": 32240.67}, "20260811": {"talabat_share": 93.65781710914455, "population_contribution": null, "installs": 38, "sessions": 4040, "daus": 2085, "total_orders": 678, "s1_orders": 367, "a1_orders": 84, "aov": 51.60352507374632, "total_revenue": 34987.19}, "20260812": {"talabat_share": 92.95774647887323, "population_contribution": null, "installs": 56, "sessions": 4199, "daus": 2266, "total_orders": 710, "s1_orders": 342, "a1_orders": 105, "aov": 50.3311690140845, "total_revenue": 35735.13}, "20260813": {"talabat_share": 92.91553133514986, "population_contribution": null, "installs": 36, "sessions": 4226, "daus": 2247, "total_orders": 734, "s1_orders": 346, "a1_orders": 112, "aov": 52.95877384196185, "total_revenue": 38871.74}, "20260814": {"talabat_share": 92.46376811594203, "population_contribution": null, "installs": 45, "sessions": 4204, "daus": 2280, "total_orders": 690, "s1_orders": 337, "a1_orders": 103, "aov": 53.08836231884058, "total_revenue": 36630.97}, "20260815": {"talabat_share": 89.75672215108835, "population_contribution": null, "installs": 45, "sessions": 4598, "daus": 2433, "total_orders": 781, "s1_orders": 386, "a1_orders": 109, "aov": 55.86797695262484, "total_revenue": 43632.89}, "20260816": {"talabat_share": 92.33576642335767, "population_contribution": null, "installs": 40, "sessions": 4425, "daus": 2334, "total_orders": 822, "s1_orders": 402, "a1_orders": 131, "aov": 53.828199513382, "total_revenue": 44246.78}, "20260817": {"talabat_share": 92.5925925925926, "population_contribution": null, "installs": 34, "sessions": 3801, "daus": 2020, "total_orders": 594, "s1_orders": 305, "a1_orders": 85, "aov": 50.28664983164983, "total_revenue": 29870.27}, "20260818": {"talabat_share": 91.00946372239747, "population_contribution": null, "installs": 27, "sessions": 3743, "daus": 2036, "total_orders": 634, "s1_orders": 301, "a1_orders": 101, "aov": 53.01290220820189, "total_revenue": 33610.18}, "20260819": {"talabat_share": 94.57142857142857, "population_contribution": null, "installs": 39, "sessions": 3885, "daus": 2091, "total_orders": 700, "s1_orders": 374, "a1_orders": 101, "aov": 49.77512857142857, "total_revenue": 34842.59}}}, {"sub_area": "Al Shamkhah", "display_name": "Al Shamkhah", "dates": {"20260806": {"talabat_share": 95.38706256627783, "population_contribution": 1.394855876774143, "installs": 69, "sessions": 9639, "daus": 5133, "total_orders": 1886, "s1_orders": 1056, "a1_orders": 344, "aov": 52.46547720042417, "total_revenue": 98949.89}, "20260807": {"talabat_share": 94.13265306122449, "population_contribution": 1.394855876774143, "installs": 84, "sessions": 10266, "daus": 5413, "total_orders": 1960, "s1_orders": 1081, "a1_orders": 316, "aov": 55.12552551020408, "total_revenue": 108046.03}, "20260808": {"talabat_share": 94.69891919711786, "population_contribution": 1.394855876774143, "installs": 71, "sessions": 10351, "daus": 5333, "total_orders": 1943, "s1_orders": 1067, "a1_orders": 332, "aov": 54.56187853834277, "total_revenue": 106013.73}, "20260809": {"talabat_share": 94.19388284085018, "population_contribution": 1.394855876774143, "installs": 67, "sessions": 10720, "daus": 5539, "total_orders": 1929, "s1_orders": 1080, "a1_orders": 341, "aov": 53.0408864696734, "total_revenue": 102315.87}, "20260810": {"talabat_share": 94.30848036425726, "population_contribution": 1.394855876774143, "installs": 71, "sessions": 9485, "daus": 4956, "total_orders": 1757, "s1_orders": 1008, "a1_orders": 256, "aov": 50.52313033579966, "total_revenue": 88769.14}, "20260811": {"talabat_share": 95, "population_contribution": 1.394855876774143, "installs": 74, "sessions": 9707, "daus": 5121, "total_orders": 1800, "s1_orders": 1013, "a1_orders": 340, "aov": 52.64354444444444, "total_revenue": 94758.38}, "20260812": {"talabat_share": 95.06449803701626, "population_contribution": 1.394855876774143, "installs": 91, "sessions": 9804, "daus": 5237, "total_orders": 1783, "s1_orders": 1013, "a1_orders": 312, "aov": 51.40759394279305, "total_revenue": 91659.74}, "20260813": {"talabat_share": 94.52054794520548, "population_contribution": 1.394855876774143, "installs": 66, "sessions": 9843, "daus": 5220, "total_orders": 1752, "s1_orders": 978, "a1_orders": 303, "aov": 52.32162100456621, "total_revenue": 91667.48}, "20260814": {"talabat_share": 94.73412493546722, "population_contribution": 1.394855876774143, "installs": 75, "sessions": 10106, "daus": 5333, "total_orders": 1937, "s1_orders": 1095, "a1_orders": 337, "aov": 56.20033040784719, "total_revenue": 108860.04}, "20260815": {"talabat_share": 93.6842105263158, "population_contribution": 1.394855876774143, "installs": 74, "sessions": 10041, "daus": 5227, "total_orders": 1805, "s1_orders": 990, "a1_orders": 308, "aov": 56.92106925207757, "total_revenue": 102742.53}, "20260816": {"talabat_share": 93.60558839333692, "population_contribution": 1.394855876774143, "installs": 76, "sessions": 10364, "daus": 5469, "total_orders": 1861, "s1_orders": 1040, "a1_orders": 311, "aov": 53.91421816227835, "total_revenue": 100334.36}, "20260817": {"talabat_share": 94.38534278959811, "population_contribution": 1.394855876774143, "installs": 76, "sessions": 9566, "daus": 5067, "total_orders": 1692, "s1_orders": 980, "a1_orders": 288, "aov": 51.0494976359338, "total_revenue": 86375.75}, "20260818": {"talabat_share": 94.61538461538461, "population_contribution": 1.394855876774143, "installs": 68, "sessions": 9196, "daus": 5026, "total_orders": 1690, "s1_orders": 969, "a1_orders": 278, "aov": 53.28669230769231, "total_revenue": 90054.51}, "20260819": {"talabat_share": 93.54275741710296, "population_contribution": 1.394855876774143, "installs": 62, "sessions": 9283, "daus": 5056, "total_orders": 1719, "s1_orders": 953, "a1_orders": 283, "aov": 52.44459569517161, "total_revenue": 90152.26}}}, {"sub_area": "Bani Yas", "display_name": "Bani Yas", "dates": {"20260806": {"talabat_share": 92.21333333333334, "population_contribution": 1.5553845208650945, "installs": 73, "sessions": 8321, "daus": 4322, "total_orders": 1875, "s1_orders": 944, "a1_orders": 323, "aov": 50.35337066666667, "total_revenue": 94412.57}, "20260807": {"talabat_share": 91.4486921529175, "population_contribution": 1.5553845208650945, "installs": 89, "sessions": 9012, "daus": 4691, "total_orders": 1988, "s1_orders": 959, "a1_orders": 349, "aov": 51.5257092555332, "total_revenue": 102433.11}, "20260808": {"talabat_share": 92.1677614957049, "population_contribution": 1.5553845208650945, "installs": 70, "sessions": 9317, "daus": 4885, "total_orders": 1979, "s1_orders": 962, "a1_orders": 384, "aov": 53.44516927741284, "total_revenue": 105767.99}, "20260809": {"talabat_share": 91.85814185814186, "population_contribution": 1.5553845208650945, "installs": 92, "sessions": 9264, "daus": 4776, "total_orders": 2002, "s1_orders": 967, "a1_orders": 340, "aov": 52.2404995004995, "total_revenue": 104585.48}, "20260810": {"talabat_share": 93.1054131054131, "population_contribution": 1.5553845208650945, "installs": 62, "sessions": 7941, "daus": 4261, "total_orders": 1755, "s1_orders": 917, "a1_orders": 289, "aov": 50.35518518518519, "total_revenue": 88373.35}, "20260811": {"talabat_share": 93.60529217199559, "population_contribution": 1.5553845208650945, "installs": 66, "sessions": 7959, "daus": 4208, "total_orders": 1814, "s1_orders": 914, "a1_orders": 358, "aov": 49.05039691289967, "total_revenue": 88977.42}, "20260812": {"talabat_share": 92.21382916908775, "population_contribution": 1.5553845208650945, "installs": 86, "sessions": 8089, "daus": 4399, "total_orders": 1721, "s1_orders": 884, "a1_orders": 312, "aov": 51.705717606043, "total_revenue": 88985.54000000001}, "20260813": {"talabat_share": 92.59887005649718, "population_contribution": 1.5553845208650945, "installs": 68, "sessions": 8108, "daus": 4344, "total_orders": 1770, "s1_orders": 911, "a1_orders": 305, "aov": 51.12513559322034, "total_revenue": 90491.49}, "20260814": {"talabat_share": 92.29086932750137, "population_contribution": 1.5553845208650945, "installs": 58, "sessions": 8397, "daus": 4491, "total_orders": 1829, "s1_orders": 911, "a1_orders": 306, "aov": 53.98118644067797, "total_revenue": 98731.59}, "20260815": {"talabat_share": 91.44496609285342, "population_contribution": 1.5553845208650945, "installs": 88, "sessions": 9065, "daus": 4749, "total_orders": 1917, "s1_orders": 998, "a1_orders": 328, "aov": 53.4389358372457, "total_revenue": 102442.44}, "20260816": {"talabat_share": 92.93286219081273, "population_contribution": 1.5553845208650945, "installs": 83, "sessions": 8878, "daus": 4696, "total_orders": 1981, "s1_orders": 1019, "a1_orders": 332, "aov": 52.19771327612317, "total_revenue": 103403.67}, "20260817": {"talabat_share": 92.65502709211319, "population_contribution": 1.5553845208650945, "installs": 83, "sessions": 7761, "daus": 4199, "total_orders": 1661, "s1_orders": 877, "a1_orders": 277, "aov": 50.68906080674292, "total_revenue": 84194.53}, "20260818": {"talabat_share": 92.04275534441805, "population_contribution": 1.5553845208650945, "installs": 64, "sessions": 7909, "daus": 4290, "total_orders": 1684, "s1_orders": 852, "a1_orders": 297, "aov": 49.13060570071259, "total_revenue": 82735.94}, "20260819": {"talabat_share": 90.77380952380952, "population_contribution": 1.5553845208650945, "installs": 66, "sessions": 7899, "daus": 4238, "total_orders": 1680, "s1_orders": 833, "a1_orders": 311, "aov": 50.36833333333333, "total_revenue": 84618.8}}}, {"sub_area": "Khalifa city", "display_name": "Khalifa City", "dates": {"20260806": {"talabat_share": 93.18181818181819, "population_contribution": 1.3600541481197863, "installs": 65, "sessions": 7608, "daus": 4015, "total_orders": 2112, "s1_orders": 704, "a1_orders": 541, "aov": 48.82852746212122, "total_revenue": 103125.85}, "20260807": {"talabat_share": 92.3865300146413, "population_contribution": 1.3600541481197863, "installs": 52, "sessions": 7674, "daus": 4026, "total_orders": 2049, "s1_orders": 684, "a1_orders": 513, "aov": 51.3394729136164, "total_revenue": 105194.58}, "20260808": {"talabat_share": 92.74611398963731, "population_contribution": 1.3600541481197863, "installs": 42, "sessions": 7611, "daus": 3932, "total_orders": 1930, "s1_orders": 638, "a1_orders": 496, "aov": 52.38878756476684, "total_revenue": 101110.36}, "20260809": {"talabat_share": 93.02218114602587, "population_contribution": 1.3600541481197863, "installs": 45, "sessions": 7988, "daus": 4149, "total_orders": 2164, "s1_orders": 788, "a1_orders": 535, "aov": 51.68131238447319, "total_revenue": 111838.36}, "20260810": {"talabat_share": 94.30936368339368, "population_contribution": 1.3600541481197863, "installs": 51, "sessions": 7484, "daus": 3907, "total_orders": 1933, "s1_orders": 753, "a1_orders": 458, "aov": 49.28853078116916, "total_revenue": 95274.73}, "20260811": {"talabat_share": 92.33520694941237, "population_contribution": 1.3600541481197863, "installs": 41, "sessions": 7825, "daus": 4045, "total_orders": 1957, "s1_orders": 730, "a1_orders": 436, "aov": 49.85481349003577, "total_revenue": 97565.87}, "20260812": {"talabat_share": 92.25285171102662, "population_contribution": 1.3600541481197863, "installs": 59, "sessions": 7570, "daus": 4099, "total_orders": 2104, "s1_orders": 766, "a1_orders": 514, "aov": 50.73506653992396, "total_revenue": 106746.58}, "20260813": {"talabat_share": 93.61797752808988, "population_contribution": 1.3600541481197863, "installs": 42, "sessions": 7737, "daus": 4112, "total_orders": 2225, "s1_orders": 813, "a1_orders": 537, "aov": 51.40740674157303, "total_revenue": 114381.48}, "20260814": {"talabat_share": 91.47088866189989, "population_contribution": 1.3600541481197863, "installs": 45, "sessions": 7604, "daus": 3920, "total_orders": 1958, "s1_orders": 671, "a1_orders": 458, "aov": 54.0353217568948, "total_revenue": 105801.16}, "20260815": {"talabat_share": 92.56198347107438, "population_contribution": 1.3600541481197863, "installs": 55, "sessions": 7436, "daus": 3836, "total_orders": 2057, "s1_orders": 665, "a1_orders": 526, "aov": 53.45421487603306, "total_revenue": 109955.32}, "20260816": {"talabat_share": 92.72121788772597, "population_contribution": 1.3600541481197863, "installs": 52, "sessions": 7734, "daus": 4055, "total_orders": 2102, "s1_orders": 705, "a1_orders": 496, "aov": 51.17909609895338, "total_revenue": 107578.46}, "20260817": {"talabat_share": 93.99801587301587, "population_contribution": 1.3600541481197863, "installs": 54, "sessions": 7088, "daus": 3811, "total_orders": 2016, "s1_orders": 799, "a1_orders": 487, "aov": 50.55809027777778, "total_revenue": 101925.11}, "20260818": {"talabat_share": 92.52380952380952, "population_contribution": 1.3600541481197863, "installs": 41, "sessions": 7286, "daus": 3911, "total_orders": 2100, "s1_orders": 783, "a1_orders": 505, "aov": 49.40974285714286, "total_revenue": 103760.46}, "20260819": {"talabat_share": 91.78021978021978, "population_contribution": 1.3600541481197863, "installs": 44, "sessions": 7572, "daus": 4046, "total_orders": 2275, "s1_orders": 859, "a1_orders": 554, "aov": 51.61378461538462, "total_revenue": 117421.36}}}, {"sub_area": "Shakhbout City", "display_name": "Shakhbout City", "dates": {"20260806": {"talabat_share": 90.73634204275534, "population_contribution": 0.43472997358179394, "installs": 30, "sessions": 4095, "daus": 2114, "total_orders": 421, "s1_orders": 192, "a1_orders": 114, "aov": 52.37655581947743, "total_revenue": 22050.53}, "20260807": {"talabat_share": 93.15068493150685, "population_contribution": 0.43472997358179394, "installs": 28, "sessions": 4038, "daus": 2028, "total_orders": 438, "s1_orders": 229, "a1_orders": 108, "aov": 58.30815068493151, "total_revenue": 25538.97}, "20260808": {"talabat_share": 93.97590361445783, "population_contribution": 0.43472997358179394, "installs": 18, "sessions": 4096, "daus": 2091, "total_orders": 415, "s1_orders": 204, "a1_orders": 100, "aov": 55.95542168674699, "total_revenue": 23221.5}, "20260809": {"talabat_share": 93.98663697104676, "population_contribution": 0.43472997358179394, "installs": 37, "sessions": 4226, "daus": 2090, "total_orders": 449, "s1_orders": 209, "a1_orders": 132, "aov": 54.1571714922049, "total_revenue": 24316.57}, "20260810": {"talabat_share": 92.4198250728863, "population_contribution": 0.43472997358179394, "installs": 36, "sessions": 3938, "daus": 2073, "total_orders": 343, "s1_orders": 159, "a1_orders": 92, "aov": 53.09871720116618, "total_revenue": 18212.86}, "20260811": {"talabat_share": 90.85872576177286, "population_contribution": 0.43472997358179394, "installs": 35, "sessions": 3898, "daus": 2074, "total_orders": 361, "s1_orders": 179, "a1_orders": 95, "aov": 49.78994459833795, "total_revenue": 17974.17}, "20260812": {"talabat_share": 94.04466501240695, "population_contribution": 0.43472997358179394, "installs": 32, "sessions": 3977, "daus": 2101, "total_orders": 403, "s1_orders": 188, "a1_orders": 109, "aov": 50.17650124069479, "total_revenue": 20221.13}, "20260813": {"talabat_share": 91.89189189189189, "population_contribution": 0.43472997358179394, "installs": 32, "sessions": 4032, "daus": 2106, "total_orders": 370, "s1_orders": 178, "a1_orders": 98, "aov": 54.79281081081081, "total_revenue": 20273.34}, "20260814": {"talabat_share": 94.40203562340967, "population_contribution": 0.43472997358179394, "installs": 30, "sessions": 4066, "daus": 2142, "total_orders": 393, "s1_orders": 187, "a1_orders": 112, "aov": 58.55366412213741, "total_revenue": 23011.59}, "20260815": {"talabat_share": 93.80952380952381, "population_contribution": 0.43472997358179394, "installs": 31, "sessions": 4095, "daus": 2063, "total_orders": 420, "s1_orders": 194, "a1_orders": 114, "aov": 58.18495238095238, "total_revenue": 24437.68}, "20260816": {"talabat_share": 91.75946547884188, "population_contribution": 0.43472997358179394, "installs": 33, "sessions": 3970, "daus": 2056, "total_orders": 449, "s1_orders": 203, "a1_orders": 131, "aov": 55.05109131403118, "total_revenue": 24717.94}, "20260817": {"talabat_share": 93.00911854103343, "population_contribution": 0.43472997358179394, "installs": 22, "sessions": 3690, "daus": 1945, "total_orders": 329, "s1_orders": 158, "a1_orders": 84, "aov": 49.59732522796353, "total_revenue": 16317.52}, "20260818": {"talabat_share": 92.49249249249249, "population_contribution": 0.43472997358179394, "installs": 33, "sessions": 3770, "daus": 2051, "total_orders": 333, "s1_orders": 151, "a1_orders": 89, "aov": 52.73618618618619, "total_revenue": 17561.15}, "20260819": {"talabat_share": 91.84782608695652, "population_contribution": 0.43472997358179394, "installs": 28, "sessions": 3823, "daus": 2130, "total_orders": 368, "s1_orders": 169, "a1_orders": 102, "aov": 55.13557065217391, "total_revenue": 20289.89}}}, {"sub_area": "Yas Island", "display_name": "Yas Island", "dates": {"20260806": {"talabat_share": 88.63636363636364, "population_contribution": 0.5184615069550316, "installs": 33, "sessions": 2044, "daus": 1127, "total_orders": 220, "s1_orders": 70, "a1_orders": 40, "aov": 61.07600000000001, "total_revenue": 13436.72}, "20260807": {"talabat_share": 88.62745098039215, "population_contribution": 0.5184615069550316, "installs": 22, "sessions": 2013, "daus": 1119, "total_orders": 255, "s1_orders": 77, "a1_orders": 46, "aov": 61.26666666666667, "total_revenue": 15623}, "20260808": {"talabat_share": 90, "population_contribution": 0.5184615069550316, "installs": 35, "sessions": 2195, "daus": 1218, "total_orders": 200, "s1_orders": 58, "a1_orders": 33, "aov": 56.7895, "total_revenue": 11357.9}, "20260809": {"talabat_share": 92.7927927927928, "population_contribution": 0.5184615069550316, "installs": 32, "sessions": 1888, "daus": 1023, "total_orders": 222, "s1_orders": 66, "a1_orders": 36, "aov": 61.28648648648649, "total_revenue": 13605.6}, "20260810": {"talabat_share": 89.51965065502183, "population_contribution": 0.5184615069550316, "installs": 23, "sessions": 1860, "daus": 1012, "total_orders": 229, "s1_orders": 77, "a1_orders": 34, "aov": 61.71637554585153, "total_revenue": 14133.05}, "20260811": {"talabat_share": 83, "population_contribution": 0.5184615069550316, "installs": 21, "sessions": 2035, "daus": 1133, "total_orders": 200, "s1_orders": 56, "a1_orders": 35, "aov": 56.12694999999999, "total_revenue": 11225.39}, "20260812": {"talabat_share": 90.3409090909091, "population_contribution": 0.5184615069550316, "installs": 28, "sessions": 1975, "daus": 1118, "total_orders": 176, "s1_orders": 71, "a1_orders": 25, "aov": 63.360625, "total_revenue": 11151.47}, "20260813": {"talabat_share": 92.10526315789474, "population_contribution": 0.5184615069550316, "installs": 19, "sessions": 1869, "daus": 1052, "total_orders": 228, "s1_orders": 76, "a1_orders": 42, "aov": 63.63802631578948, "total_revenue": 14509.47}, "20260814": {"talabat_share": 89.17748917748918, "population_contribution": 0.5184615069550316, "installs": 20, "sessions": 1996, "daus": 1090, "total_orders": 231, "s1_orders": 70, "a1_orders": 29, "aov": 67.49645021645021, "total_revenue": 15591.68}, "20260815": {"talabat_share": 91.88034188034187, "population_contribution": 0.5184615069550316, "installs": 22, "sessions": 1901, "daus": 1050, "total_orders": 234, "s1_orders": 66, "a1_orders": 41, "aov": 64.04551282051281, "total_revenue": 14986.65}, "20260816": {"talabat_share": 90.3061224489796, "population_contribution": 0.5184615069550316, "installs": 22, "sessions": 1701, "daus": 908, "total_orders": 196, "s1_orders": 60, "a1_orders": 34, "aov": 63.7994387755102, "total_revenue": 12504.69}, "20260817": {"talabat_share": 89.52879581151832, "population_contribution": 0.5184615069550316, "installs": 20, "sessions": 1835, "daus": 1017, "total_orders": 191, "s1_orders": 64, "a1_orders": 31, "aov": 59.27586387434555, "total_revenue": 11321.69}, "20260818": {"talabat_share": 91.0377358490566, "population_contribution": 0.5184615069550316, "installs": 19, "sessions": 1859, "daus": 1024, "total_orders": 212, "s1_orders": 71, "a1_orders": 40, "aov": 57.72933962264151, "total_revenue": 12238.62}, "20260819": {"talabat_share": 90.33816425120773, "population_contribution": 0.5184615069550316, "installs": 18, "sessions": 1831, "daus": 1046, "total_orders": 207, "s1_orders": 62, "a1_orders": 45, "aov": 59.25347826086957, "total_revenue": 12265.47}}}], "Sharjah": [{"sub_area": "Al Badee Suburb Siyouh Suburb", "display_name": "Siyouh", "dates": {"20260806": {"talabat_share": 92.84132841328413, "population_contribution": null, "installs": 64, "sessions": 8827, "daus": 4727, "total_orders": 1355, "s1_orders": 594, "a1_orders": 267, "aov": 52.00030258302584, "total_revenue": 70460.41}, "20260807": {"talabat_share": 93.28571428571429, "population_contribution": null, "installs": 64, "sessions": 8695, "daus": 4671, "total_orders": 1400, "s1_orders": 623, "a1_orders": 261, "aov": 54.9718, "total_revenue": 76960.52}, "20260808": {"talabat_share": 91.91994069681246, "population_contribution": null, "installs": 61, "sessions": 9016, "daus": 4847, "total_orders": 1349, "s1_orders": 617, "a1_orders": 241, "aov": 55.69330615270571, "total_revenue": 75130.27}, "20260809": {"talabat_share": 93.70424597364568, "population_contribution": null, "installs": 76, "sessions": 8710, "daus": 4788, "total_orders": 1366, "s1_orders": 602, "a1_orders": 264, "aov": 53.80095168374817, "total_revenue": 73492.1}, "20260810": {"talabat_share": 93.58108108108108, "population_contribution": null, "installs": 60, "sessions": 8354, "daus": 4567, "total_orders": 1184, "s1_orders": 556, "a1_orders": 235, "aov": 49.89103040540541, "total_revenue": 59070.98}, "20260811": {"talabat_share": 94.03361344537815, "population_contribution": null, "installs": 56, "sessions": 8118, "daus": 4509, "total_orders": 1190, "s1_orders": 542, "a1_orders": 238, "aov": 49.74580672268907, "total_revenue": 59197.51}, "20260812": {"talabat_share": 93.71019108280255, "population_contribution": null, "installs": 69, "sessions": 8674, "daus": 4781, "total_orders": 1256, "s1_orders": 562, "a1_orders": 246, "aov": 50.19601910828026, "total_revenue": 63046.2}, "20260813": {"talabat_share": 93.14024390243902, "population_contribution": null, "installs": 65, "sessions": 8479, "daus": 4700, "total_orders": 1312, "s1_orders": 600, "a1_orders": 234, "aov": 51.35461890243902, "total_revenue": 67377.26}, "20260814": {"talabat_share": 91.54716981132076, "population_contribution": null, "installs": 69, "sessions": 8612, "daus": 4714, "total_orders": 1325, "s1_orders": 581, "a1_orders": 242, "aov": 56.02730566037737, "total_revenue": 74236.18000000001}, "20260815": {"talabat_share": 92.62472885032538, "population_contribution": null, "installs": 61, "sessions": 8759, "daus": 4784, "total_orders": 1383, "s1_orders": 608, "a1_orders": 232, "aov": 54.22152566883586, "total_revenue": 74988.37}, "20260816": {"talabat_share": 93.50943396226415, "population_contribution": null, "installs": 79, "sessions": 9087, "daus": 4915, "total_orders": 1325, "s1_orders": 587, "a1_orders": 250, "aov": 51.07555471698113, "total_revenue": 67675.11}, "20260817": {"talabat_share": 92.734375, "population_contribution": null, "installs": 54, "sessions": 8628, "daus": 4804, "total_orders": 1280, "s1_orders": 547, "a1_orders": 276, "aov": 48.5405078125, "total_revenue": 62131.85}, "20260818": {"talabat_share": 93.22162985529322, "population_contribution": null, "installs": 70, "sessions": 8602, "daus": 4804, "total_orders": 1313, "s1_orders": 572, "a1_orders": 288, "aov": 49.29866717440975, "total_revenue": 64729.15}, "20260819": {"talabat_share": 91.67974882260596, "population_contribution": null, "installs": 52, "sessions": 8965, "daus": 4882, "total_orders": 1274, "s1_orders": 547, "a1_orders": 256, "aov": 48.88457613814757, "total_revenue": 62278.95}}}, {"sub_area": "Al Rehmania Suburb", "display_name": "Al Rehmania", "dates": {"20260806": {"talabat_share": 88.88888888888889, "population_contribution": null, "installs": 18, "sessions": 1897, "daus": 1054, "total_orders": 207, "s1_orders": 93, "a1_orders": 40, "aov": 53.72014492753623, "total_revenue": 11120.07}, "20260807": {"talabat_share": 91.75824175824175, "population_contribution": null, "installs": 29, "sessions": 1748, "daus": 980, "total_orders": 182, "s1_orders": 94, "a1_orders": 18, "aov": 55.75445054945055, "total_revenue": 10147.31}, "20260808": {"talabat_share": 92.1875, "population_contribution": null, "installs": 26, "sessions": 1964, "daus": 1068, "total_orders": 192, "s1_orders": 91, "a1_orders": 36, "aov": 56.78010416666667, "total_revenue": 10901.78}, "20260809": {"talabat_share": 92.85714285714286, "population_contribution": null, "installs": 24, "sessions": 1826, "daus": 939, "total_orders": 168, "s1_orders": 82, "a1_orders": 31, "aov": 56.1077380952381, "total_revenue": 9426.1}, "20260810": {"talabat_share": 89.65517241379311, "population_contribution": null, "installs": 13, "sessions": 1723, "daus": 954, "total_orders": 145, "s1_orders": 76, "a1_orders": 21, "aov": 54.72110344827586, "total_revenue": 7934.56}, "20260811": {"talabat_share": 93.4640522875817, "population_contribution": null, "installs": 22, "sessions": 1837, "daus": 978, "total_orders": 153, "s1_orders": 83, "a1_orders": 22, "aov": 50.28372549019608, "total_revenue": 7693.41}, "20260812": {"talabat_share": 90.12345679012346, "population_contribution": null, "installs": 18, "sessions": 2043, "daus": 1049, "total_orders": 162, "s1_orders": 88, "a1_orders": 25, "aov": 47.81679012345679, "total_revenue": 7746.32}, "20260813": {"talabat_share": 90.3954802259887, "population_contribution": null, "installs": 34, "sessions": 1965, "daus": 1052, "total_orders": 177, "s1_orders": 86, "a1_orders": 37, "aov": 51.5593220338983, "total_revenue": 9126}, "20260814": {"talabat_share": 93.75, "population_contribution": null, "installs": 20, "sessions": 1871, "daus": 1036, "total_orders": 160, "s1_orders": 88, "a1_orders": 22, "aov": 55.8691875, "total_revenue": 8939.07}, "20260815": {"talabat_share": 91.62303664921465, "population_contribution": null, "installs": 20, "sessions": 1952, "daus": 1046, "total_orders": 191, "s1_orders": 89, "a1_orders": 35, "aov": 50.92392670157068, "total_revenue": 9726.47}, "20260816": {"talabat_share": 91.72413793103448, "population_contribution": null, "installs": 26, "sessions": 1626, "daus": 900, "total_orders": 145, "s1_orders": 81, "a1_orders": 20, "aov": 50.05206896551724, "total_revenue": 7257.55}, "20260817": {"talabat_share": 92.72727272727273, "population_contribution": null, "installs": 20, "sessions": 1771, "daus": 994, "total_orders": 165, "s1_orders": 81, "a1_orders": 27, "aov": 44.97484848484849, "total_revenue": 7420.85}, "20260818": {"talabat_share": 89.1566265060241, "population_contribution": null, "installs": 25, "sessions": 1834, "daus": 1006, "total_orders": 166, "s1_orders": 81, "a1_orders": 30, "aov": 50.74367469879518, "total_revenue": 8423.45}, "20260819": {"talabat_share": 91.0958904109589, "population_contribution": null, "installs": 19, "sessions": 1749, "daus": 962, "total_orders": 146, "s1_orders": 83, "a1_orders": 19, "aov": 49.77246575342465, "total_revenue": 7266.78}}}, {"sub_area": "Muwaileh Commercial", "display_name": "Muwaileh", "dates": {"20260806": {"talabat_share": 87.86630036630036, "population_contribution": null, "installs": 56, "sessions": 6599, "daus": 3576, "total_orders": 2184, "s1_orders": 451, "a1_orders": 451, "aov": 45.75070054945055, "total_revenue": 99919.53}, "20260807": {"talabat_share": 85.81847649918963, "population_contribution": null, "installs": 76, "sessions": 7398, "daus": 3956, "total_orders": 2468, "s1_orders": 550, "a1_orders": 411, "aov": 45.9416450567261, "total_revenue": 113383.98}, "20260808": {"talabat_share": 86.45555131629149, "population_contribution": null, "installs": 86, "sessions": 8327, "daus": 4485, "total_orders": 2621, "s1_orders": 500, "a1_orders": 450, "aov": 47.24689431514689, "total_revenue": 123834.11}, "20260809": {"talabat_share": 85.81898131183584, "population_contribution": null, "installs": 78, "sessions": 8753, "daus": 4608, "total_orders": 2729, "s1_orders": 548, "a1_orders": 460, "aov": 46.15497618175156, "total_revenue": 125956.93}, "20260810": {"talabat_share": 87.05708661417323, "population_contribution": null, "installs": 56, "sessions": 5861, "daus": 3210, "total_orders": 2032, "s1_orders": 474, "a1_orders": 403, "aov": 43.84277066929133, "total_revenue": 89088.51}, "20260811": {"talabat_share": 87.88894207754906, "population_contribution": null, "installs": 54, "sessions": 6258, "daus": 3435, "total_orders": 2089, "s1_orders": 501, "a1_orders": 403, "aov": 45.02865485878411, "total_revenue": 94064.86}, "20260812": {"talabat_share": 87.4942102825382, "population_contribution": null, "installs": 44, "sessions": 6537, "daus": 3515, "total_orders": 2159, "s1_orders": 510, "a1_orders": 422, "aov": 45.38386753126448, "total_revenue": 97983.77}, "20260813": {"talabat_share": 86.16470588235295, "population_contribution": null, "installs": 65, "sessions": 6672, "daus": 3663, "total_orders": 2125, "s1_orders": 455, "a1_orders": 443, "aov": 45.13568, "total_revenue": 95913.32}, "20260814": {"talabat_share": 86.93636746734092, "population_contribution": null, "installs": 63, "sessions": 7330, "daus": 3996, "total_orders": 2373, "s1_orders": 538, "a1_orders": 435, "aov": 47.391601348504, "total_revenue": 112460.27}, "20260815": {"talabat_share": 85.64902931100114, "population_contribution": null, "installs": 77, "sessions": 8307, "daus": 4469, "total_orders": 2627, "s1_orders": 540, "a1_orders": 492, "aov": 47.70916634944804, "total_revenue": 125331.98}, "20260816": {"talabat_share": 85.55596601403768, "population_contribution": null, "installs": 89, "sessions": 8486, "daus": 4541, "total_orders": 2707, "s1_orders": 539, "a1_orders": 453, "aov": 46.21926486885852, "total_revenue": 125115.55}, "20260817": {"talabat_share": 87.29757085020243, "population_contribution": null, "installs": 47, "sessions": 6088, "daus": 3288, "total_orders": 1976, "s1_orders": 458, "a1_orders": 416, "aov": 44.69668522267207, "total_revenue": 88320.65000000001}, "20260818": {"talabat_share": 87.73496240601504, "population_contribution": null, "installs": 46, "sessions": 6542, "daus": 3517, "total_orders": 2128, "s1_orders": 506, "a1_orders": 432, "aov": 45.50228383458646, "total_revenue": 96828.86}, "20260819": {"talabat_share": 86.79593721144968, "population_contribution": null, "installs": 50, "sessions": 6531, "daus": 3521, "total_orders": 2166, "s1_orders": 509, "a1_orders": 426, "aov": 44.50156509695291, "total_revenue": 96390.39}}}], "Al Ain": [{"sub_area": "Zakher", "display_name": "Zakher", "dates": {"20260806": {"talabat_share": 97.05578512396694, "population_contribution": null, "installs": 70, "sessions": 9579, "daus": 4830, "total_orders": 1936, "s1_orders": 1337, "a1_orders": 186, "aov": 54.01501033057851, "total_revenue": 104573.06}, "20260807": {"talabat_share": 96.42156862745098, "population_contribution": null, "installs": 73, "sessions": 10000, "daus": 5144, "total_orders": 2040, "s1_orders": 1415, "a1_orders": 172, "aov": 57.35257843137256, "total_revenue": 116999.26}, "20260808": {"talabat_share": 96.37644690488173, "population_contribution": null, "installs": 80, "sessions": 9982, "daus": 5210, "total_orders": 1987, "s1_orders": 1382, "a1_orders": 151, "aov": 56.16960241570207, "total_revenue": 111609}, "20260809": {"talabat_share": 96.71610169491525, "population_contribution": null, "installs": 69, "sessions": 9883, "daus": 5112, "total_orders": 1888, "s1_orders": 1315, "a1_orders": 172, "aov": 54.50844809322034, "total_revenue": 102911.95}, "20260810": {"talabat_share": 96.97136563876651, "population_contribution": null, "installs": 72, "sessions": 9234, "daus": 4796, "total_orders": 1816, "s1_orders": 1261, "a1_orders": 151, "aov": 52.90098568281938, "total_revenue": 96068.19}, "20260811": {"talabat_share": 96.68760708166762, "population_contribution": null, "installs": 59, "sessions": 8707, "daus": 4591, "total_orders": 1751, "s1_orders": 1259, "a1_orders": 136, "aov": 53.07969160479726, "total_revenue": 92942.54000000001}, "20260812": {"talabat_share": 96.49717514124293, "population_contribution": null, "installs": 81, "sessions": 9132, "daus": 4836, "total_orders": 1770, "s1_orders": 1232, "a1_orders": 163, "aov": 53.8389209039548, "total_revenue": 95294.89}, "20260813": {"talabat_share": 96.30891538898354, "population_contribution": null, "installs": 60, "sessions": 9333, "daus": 4892, "total_orders": 1761, "s1_orders": 1221, "a1_orders": 130, "aov": 55.17836456558774, "total_revenue": 97169.1}, "20260814": {"talabat_share": 96.82864450127877, "population_contribution": null, "installs": 63, "sessions": 9717, "daus": 5044, "total_orders": 1955, "s1_orders": 1359, "a1_orders": 170, "aov": 58.48604092071611, "total_revenue": 114340.21}, "20260815": {"talabat_share": 96.18736383442265, "population_contribution": null, "installs": 60, "sessions": 9863, "daus": 5169, "total_orders": 1836, "s1_orders": 1273, "a1_orders": 151, "aov": 58.59192265795208, "total_revenue": 107574.77}, "20260816": {"talabat_share": 96.96969696969697, "population_contribution": null, "installs": 72, "sessions": 9711, "daus": 5203, "total_orders": 1848, "s1_orders": 1305, "a1_orders": 154, "aov": 56.39246753246753, "total_revenue": 104213.28}, "20260817": {"talabat_share": 95.92457420924575, "population_contribution": null, "installs": 59, "sessions": 8920, "daus": 4737, "total_orders": 1644, "s1_orders": 1156, "a1_orders": 131, "aov": 55.22852798053528, "total_revenue": 90795.7}, "20260818": {"talabat_share": 96.5580823601721, "population_contribution": null, "installs": 70, "sessions": 9007, "daus": 4774, "total_orders": 1627, "s1_orders": 1106, "a1_orders": 149, "aov": 56.15267977873387, "total_revenue": 91360.41}, "20260819": {"talabat_share": 96.26334519572954, "population_contribution": null, "installs": 34, "sessions": 8959, "daus": 4748, "total_orders": 1686, "s1_orders": 1196, "a1_orders": 164, "aov": 54.85858244365362, "total_revenue": 92491.57}}}]};
+
+const AOR_ORDER = ["Dubai", "Abu Dhabi", "Sharjah", "Al Ain"];
+const AOR_THEMES = {
+  "Dubai":     {color:"#3b82f6", bg:"rgba(59,130,246,0.08)", border:"rgba(59,130,246,0.3)"},
+  "Sharjah":   {color:"#22c55e", bg:"rgba(34,197,94,0.08)",  border:"rgba(34,197,94,0.3)"},
+  "Abu Dhabi": {color:"#f59e0b", bg:"rgba(245,158,11,0.08)", border:"rgba(245,158,11,0.3)"},
+  "Al Ain":    {color:"#a855f7", bg:"rgba(168,85,247,0.08)", border:"rgba(168,85,247,0.3)"},
+};
+
+const ALL_DATES = ["20260806", "20260807", "20260808", "20260809", "20260810", "20260811", "20260812", "20260813", "20260814", "20260815", "20260816", "20260817", "20260818", "20260819"];
+const SPARK_DATES = ["20260813", "20260814", "20260815", "20260816", "20260817", "20260818", "20260819"];
+const SPARK_LABELS = ["Aug 13", "Aug 14", "Aug 15", "Aug 16", "Aug 17", "Aug 18", "Aug 19"];
+const ALL_LABELS = ["Aug 6", "Aug 7", "Aug 8", "Aug 9", "Aug 10", "Aug 11", "Aug 12", "Aug 13", "Aug 14", "Aug 15", "Aug 16", "Aug 17", "Aug 18", "Aug 19"];
+
+const T1 = "20260819";
+const T2 = "20260818";
+const WOW = "20260812";
+
+const METRICS = [
+  {key:"talabat_share",   label:"Talabat Order Share (%)",  fmt:"pct"},
+  {key:"population_contribution", label:"Population Contribution", fmt:"pct"},
+  {key:"installs",        label:"Installs",     fmt:"num"},
+  {key:"sessions",       label:"Sessions",     fmt:"num"},
+  {key:"daus",           label:"DAUs",         fmt:"num"},
+  {key:"total_orders",   label:"Total Orders", fmt:"num"},
+  {key:"s1_orders",      label:"S1 Orders",     fmt:"num"},
+  {key:"a1_orders",      label:"A1 Orders",     fmt:"num"},
+  {key:"aov",            label:"AOV (AED)",    fmt:"num"},
+  {key:"penetration",    label:"Penetration",  fmt:"dash"},
+];
+
+// ── Helpers ─────────────────────────────────────────────────────────────────
+function fmtNum(v) {
+  if (v === null || v === undefined) return "—";
+  if (typeof v === "number") {
+    if (Math.abs(v) < 100) return v.toFixed(2);
+    return v.toLocaleString(undefined, {maximumFractionDigits:0});
+  }
+  return String(v);
+}
+function fmtPct(v) {
+  if (v === null || v === undefined) return "—";
+  return v.toFixed(2) + "%";
+}
+function fmtMetric(key, v) {
+  if (key === "penetration") return "—";
+  if (v === null || v === undefined) return "—";
+  // population_contribution and talabat_share are percentages
+  if (key === "talabat_share" || key === "population_contribution") return fmtPct(v);
+  return fmtNum(v);
+}
+function calcShift(curr, prev) {
+  if (curr === null || curr === undefined || prev === null || prev === undefined || prev === 0) return null;
+  return ((curr - prev) / prev) * 100;
+}
+function shiftClass(v) {
+  if (v === null || v === undefined) return "shift-neutral";
+  if (v > 0) return "shift-pos";
+  if (v < 0) return "shift-neg";
+  return "shift-neutral";
+}
+function shiftStr(v) {
+  if (v === null || v === undefined) return "—";
+  const sign = v > 0 ? "+" : "";
+  return sign + v.toFixed(1) + "%";
+}
+
+// ── Sparkline (SVG) ─────────────────────────────────────────────────────────
+function sparkline(values, color) {
+  if (!values || values.length === 0) return "";
+  const valid = values.filter(v => v !== null && v !== undefined);
+  if (valid.length === 0) return "";
+  const w = 60, h = 24, pad = 2;
+  const min = Math.min(...valid), max = Math.max(...valid);
+  const range = max - min || 1;
+  const pts = values.map((v, i) => {
+    const x = pad + (i / (values.length - 1)) * (w - pad*2);
+    const y = v === null || v === undefined ? h - pad : (h - pad) - ((v - min) / range) * (h - pad*2);
+    return x.toFixed(1) + "," + y.toFixed(1);
+  }).join(" ");
+  return '<svg class="sparkline" viewBox="0 0 ' + w + ' ' + h + '" preserveAspectRatio="none">' +
+         '<polyline points="' + pts + '" fill="none" stroke="' + color + '" stroke-width="1.5"/>' +
+         '</svg>';
+}
+
+// ── Build Dashboard ─────────────────────────────────────────────────────────
+const charts = {};  // store Chart.js instances by aor key
+
+function buildDashboard() {
+  const container = document.getElementById("dashboard");
+  AOR_ORDER.forEach((aor, aorIdx) => {
+    const theme = AOR_THEMES[aor];
+    const subs = DATA[aor];
+    const section = document.createElement("section");
+    section.className = "aor-section";
+    section.style.borderTop = "3px solid " + theme.color;
+
+    // Header
+    const hdr = document.createElement("div");
+    hdr.className = "aor-header";
+    hdr.style.background = theme.bg;
+    hdr.innerHTML = '<span class="dot" style="background:' + theme.color + '"></span>' +
+                    aor +
+                    ' <span class="sub-count">' + subs.length + ' sub-areas</span>';
+    section.appendChild(hdr);
+
+    // Cards grid
+    const grid = document.createElement("div");
+    grid.className = "cards-grid";
+    subs.forEach(sub => {
+      const card = document.createElement("div");
+      card.className = "sub-card";
+      card.style.borderTop = "2px solid " + theme.color;
+
+      const title = document.createElement("h3");
+      title.textContent = sub.display_name;
+      card.appendChild(title);
+
+      const t1Rec = sub.dates[T1];
+      const t2Rec = sub.dates[T2];
+      const wowRec = sub.dates[WOW];
+
+      METRICS.forEach(m => {
+        const row = document.createElement("div");
+        row.className = "metric-row";
+
+        const label = document.createElement("span");
+        label.className = "metric-label";
+        label.textContent = m.label;
+
+        const val = document.createElement("span");
+        val.className = "metric-value";
+        if (m.key === "penetration") {
+          val.textContent = "—";
+        } else {
+          const v = t1Rec ? t1Rec[m.key] : null;
+          val.textContent = fmtMetric(m.key, v);
+        }
+
+        // DoD shift
+        const dodShift = document.createElement("span");
+        dodShift.className = "metric-shift " + (m.key === "penetration" ? "shift-neutral" :
+          shiftClass(calcShift(t1Rec ? t1Rec[m.key] : null, t2Rec ? t2Rec[m.key] : null)));
+        dodShift.textContent = m.key === "penetration" ? "—" :
+          shiftStr(calcShift(t1Rec ? t1Rec[m.key] : null, t2Rec ? t2Rec[m.key] : null));
+
+        // WoW shift
+        const wowShift = document.createElement("span");
+        wowShift.className = "metric-shift " + (m.key === "penetration" ? "shift-neutral" :
+          shiftClass(calcShift(t1Rec ? t1Rec[m.key] : null, wowRec ? wowRec[m.key] : null)));
+        wowShift.textContent = m.key === "penetration" ? "—" :
+          shiftStr(calcShift(t1Rec ? t1Rec[m.key] : null, wowRec ? wowRec[m.key] : null));
+
+        // Sparkline (7-day)
+        const sparkWrap = document.createElement("span");
+        sparkWrap.className = "metric-spark";
+        if (m.key !== "penetration") {
+          const sparkVals = SPARK_DATES.map(d => sub.dates[d] ? sub.dates[d][m.key] : null);
+          sparkWrap.innerHTML = sparkline(sparkVals, theme.color);
+        }
+
+        row.appendChild(label);
+        row.appendChild(val);
+        row.appendChild(dodShift);
+        row.appendChild(wowShift);
+        row.appendChild(sparkWrap);
+        card.appendChild(row);
+      });
+
+      grid.appendChild(card);
+    });
+    section.appendChild(grid);
+
+    // Chart area
+    const chartArea = document.createElement("div");
+    chartArea.className = "chart-area";
+
+    const controls = document.createElement("div");
+    controls.className = "chart-controls";
+
+    const lbl = document.createElement("label");
+    lbl.textContent = "Metric:";
+    lbl.htmlFor = "metric-select-" + aorIdx;
+
+    const sel = document.createElement("select");
+    sel.id = "metric-select-" + aorIdx;
+    sel.dataset.aor = aor;
+    sel.dataset.aorIdx = aorIdx;
+    METRICS.forEach(m => {
+      const opt = document.createElement("option");
+      opt.value = m.key;
+      opt.textContent = m.label;
+      if (m.key === "talabat_share") opt.selected = true;
+      sel.appendChild(opt);
+    });
+
+    // Column header labels
+    const hdrRow = document.createElement("span");
+    hdrRow.style.color = "var(--text-dim)";
+    hdrRow.style.fontSize = "11px";
+    hdrRow.style.marginLeft = "auto";
+    hdrRow.textContent = "Value | DoD% | WoW% | 7d trend";
+
+    controls.appendChild(lbl);
+    controls.appendChild(sel);
+    controls.appendChild(hdrRow);
+    chartArea.appendChild(controls);
+
+    const canvasWrap = document.createElement("div");
+    canvasWrap.className = "chart-canvas-wrap";
+    const canvas = document.createElement("canvas");
+    canvas.id = "chart-" + aorIdx;
+    canvasWrap.appendChild(canvas);
+    chartArea.appendChild(canvasWrap);
+
+    section.appendChild(chartArea);
+
+    // Data table
+    const tableArea = document.createElement("div");
+    tableArea.className = "table-area";
+    const tableTitle = document.createElement("h4");
+    tableTitle.textContent = "Data Table — T-1 (Aug 19) values";
+    tableArea.appendChild(tableTitle);
+
+    const tbl = document.createElement("table");
+    // Header row
+    const thead = document.createElement("thead");
+    const trh = document.createElement("tr");
+    const th0 = document.createElement("th");
+    th0.textContent = "Sub-area";
+    trh.appendChild(th0);
+    METRICS.forEach(m => {
+      const th = document.createElement("th");
+      th.textContent = m.label;
+      trh.appendChild(th);
+    });
+    thead.appendChild(trh);
+    tbl.appendChild(thead);
+
+    const tbody = document.createElement("tbody");
+    subs.forEach(sub => {
+      const tr = document.createElement("tr");
+      const td0 = document.createElement("td");
+      td0.textContent = sub.display_name;
+      tr.appendChild(td0);
+      METRICS.forEach(m => {
+        const td = document.createElement("td");
+        const v = (m.key === "penetration") ? null : (sub.dates[T1] ? sub.dates[T1][m.key] : null);
+        td.textContent = fmtMetric(m.key, v);
+        tr.appendChild(td);
+      });
+      tbody.appendChild(tr);
+    });
+    tbl.appendChild(tbody);
+    tableArea.appendChild(tbl);
+    section.appendChild(tableArea);
+
+    container.appendChild(section);
+
+    // Event listener for dropdown
+    sel.addEventListener("change", function(e) {
+      const aorKey = e.target.dataset.aor;
+      const aorI = parseInt(e.target.dataset.aorIdx);
+      const metricKey = e.target.value;
+      drawChart(aorKey, aorI, metricKey);
+    });
+
+    // Initial chart
+    drawChart(aor, aorIdx, "talabat_share");
+  });
+}
+
+function drawChart(aor, aorIdx, metricKey) {
+  const canvasId = "chart-" + aorIdx;
+  const canvas = document.getElementById(canvasId);
+  if (!canvas) return;
+
+  // Destroy existing chart
+  if (charts[aorIdx]) {
+    charts[aorIdx].destroy();
+  }
+
+  const theme = AOR_THEMES[aor];
+  const subs = DATA[aor];
+
+  // Use ALL_DATES for x-axis (Aug 6-19), but spark is last 7
+  const labels = ALL_LABELS;
+
+  const datasets = subs.map((sub, i) => {
+    const color = subs.length === 1 ? theme.color : HSL_COLOR(i, subs.length, theme.color);
+    const values = ALL_DATES.map(d => {
+      if (metricKey === "penetration") return null;
+      const rec = sub.dates[d];
+      return rec ? rec[metricKey] : null;
+    });
+    return {
+      label: sub.display_name,
+      data: values,
+      borderColor: color,
+      backgroundColor: color + "20",
+      fill: false,
+      tension: 0.3,
+      pointRadius: 3,
+      pointHoverRadius: 5,
+      spanGaps: true,
+    };
+  });
+
+  const ctx = canvas.getContext("2d");
+  charts[aorIdx] = new Chart(ctx, {
+    type: "line",
+    data: { labels: labels, datasets: datasets },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: "index", intersect: false },
+      plugins: {
+        legend: {
+          display: true,
+          position: "bottom",
+          labels: { color: "#94a3b8", font: { size: 11 }, boxWidth: 12, padding: 8 }
+        },
+        tooltip: {
+          backgroundColor: "#1e293b",
+          borderColor: "#334155",
+          borderWidth: 1,
+          titleColor: "#e2e8f0",
+          bodyColor: "#94a3b8",
+          callbacks: {
+            label: function(ctx) {
+              const v = ctx.parsed.y;
+              if (v === null) return ctx.dataset.label + ": —";
+              if (metricKey === "talabat_share" || metricKey === "population_contribution") {
+                return ctx.dataset.label + ": " + v.toFixed(2) + "%";
+              }
+              return ctx.dataset.label + ": " + v.toLocaleString();
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          grid: { color: "rgba(51,65,85,0.3)" },
+          ticks: { color: "#64748b", font: { size: 11 } }
+        },
+        y: {
+          grid: { color: "rgba(51,65,85,0.3)" },
+          ticks: {
+            color: "#64748b",
+            font: { size: 11 },
+            callback: function(v) {
+              if (metricKey === "talabat_share" || metricKey === "population_contribution") {
+                return v + "%";
+              }
+              return v;
+            }
+          }
+        }
+      }
+    }
+  });
+}
+
+// Generate distinct colors for multi-line charts
+function HSL_COLOR(i, total, baseColor) {
+  // Use HSL spread around the theme color
+  const hueStep = 360 / Math.max(total, 1);
+  const hue = (i * hueStep + (baseColor === "#3b82f6" ? 210 : baseColor === "#22c55e" ? 140 : baseColor === "#f59e0b" ? 40 : 270)) % 360;
+  return "hsl(" + hue + ", 70%, 60%)";
+}
+
+// ── Init ───────────────────────────────────────────────────────────────────
+document.addEventListener("DOMContentLoaded", buildDashboard);
+</script>
+</body>
+</html>
