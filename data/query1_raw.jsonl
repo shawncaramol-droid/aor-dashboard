@@ -1,0 +1,102 @@
+{"qid":"2090664204111552583","url":"https://wenshu-s3-eu.mykeeta.com/v2/wsjr_904/T20260821_125603_02095_sjb2u.csv?AWSAccessKeyId=SRV_9eYsj1YVsrI4T9I5zq26ERmppJonfpcM&Expires=1787291854&Signature=ppw630wZ3JFMC%2B4OlFT0b0cvtdk%3D","totalRows":168}
+{"columns":["dt","aor_id","aor_name","emirate","dau","new_users","completed_orders","first_order_users"]}
+{"aor_id":"510040004","aor_name":"AI Falah","completed_orders":"682","dau":"1809","dt":"20260813","emirate":"Abu Dhabi  Emirate","first_order_users":"15","new_users":"26"}
+{"aor_id":"500000590","aor_name":"Al Saadah","completed_orders":"1855","dau":"3996","dt":"20260813","emirate":"Abu Dhabi  Emirate","first_order_users":"54","new_users":"62"}
+{"aor_id":"500000603","aor_name":"Al Shahama ","completed_orders":"690","dau":"2070","dt":"20260813","emirate":"Abu Dhabi  Emirate","first_order_users":"27","new_users":"34"}
+{"aor_id":"500000611","aor_name":"Al Shamkhah","completed_orders":"1903","dau":"4983","dt":"20260813","emirate":"Abu Dhabi  Emirate","first_order_users":"69","new_users":"86"}
+{"aor_id":"500000610","aor_name":"Bani Yas","completed_orders":"1330","dau":"4068","dt":"20260813","emirate":"Abu Dhabi  Emirate","first_order_users":"64","new_users":"83"}
+{"aor_id":"510130002","aor_name":"Khalifa city","completed_orders":"1864","dau":"3802","dt":"20260813","emirate":"Abu Dhabi  Emirate","first_order_users":"49","new_users":"48"}
+{"aor_id":"500000609","aor_name":"Shakhbout City","completed_orders":"825","dau":"1937","dt":"20260813","emirate":"Abu Dhabi  Emirate","first_order_users":"24","new_users":"32"}
+{"aor_id":"500000602","aor_name":"Yas Island","completed_orders":"332","dau":"876","dt":"20260813","emirate":"Abu Dhabi  Emirate","first_order_users":"28","new_users":"39"}
+{"aor_id":"500001022","aor_name":"Zakher","completed_orders":"1997","dau":"4678","dt":"20260813","emirate":"Abu Dhabi  Emirate","first_order_users":"59","new_users":"72"}
+{"aor_id":"500000419","aor_name":"Al Khawaneej Al Mizhar","completed_orders":"564","dau":"1438","dt":"20260813","emirate":"Dubai Emirate","first_order_users":"11","new_users":"19"}
+{"aor_id":"500000443","aor_name":"Al Warqa","completed_orders":"1195","dau":"2851","dt":"20260813","emirate":"Dubai Emirate","first_order_users":"25","new_users":"35"}
+{"aor_id":"500000404","aor_name":"Arabian Ranches","completed_orders":"256","dau":"580","dt":"20260813","emirate":"Dubai Emirate","first_order_users":"7","new_users":"11"}
+{"aor_id":"500000362","aor_name":"Barsha South - Arjan","completed_orders":"693","dau":"1295","dt":"20260813","emirate":"Dubai Emirate","first_order_users":"13","new_users":"14"}
+{"aor_id":"500000424","aor_name":"Business Bay 1","completed_orders":"1120","dau":"2197","dt":"20260813","emirate":"Dubai Emirate","first_order_users":"33","new_users":"46"}
+{"aor_id":"500000450","aor_name":"Business Bay 2","completed_orders":"1092","dau":"2063","dt":"20260813","emirate":"Dubai Emirate","first_order_users":"40","new_users":"44"}
+{"aor_id":"500000386","aor_name":"Creek Harbor","completed_orders":"358","dau":"857","dt":"20260813","emirate":"Dubai Emirate","first_order_users":"17","new_users":"24"}
+{"aor_id":"510260000","aor_name":"Damac Hills / Mudon","completed_orders":"405","dau":"768","dt":"20260813","emirate":"Dubai Emirate","first_order_users":"7","new_users":"8"}
+{"aor_id":"500000367","aor_name":"Downtown","completed_orders":"672","dau":"1528","dt":"20260813","emirate":"Dubai Emirate","first_order_users":"31","new_users":"39"}
+{"aor_id":"500000444","aor_name":"Mirdif","completed_orders":"936","dau":"2013","dt":"20260813","emirate":"Dubai Emirate","first_order_users":"21","new_users":"25"}
+{"aor_id":"500000414","aor_name":"Muhaisnah / Al Mizhar","completed_orders":"852","dau":"2134","dt":"20260813","emirate":"Dubai Emirate","first_order_users":"33","new_users":"45"}
+{"aor_id":"510040002","aor_name":"Naad Al Hamar","completed_orders":"458","dau":"1066","dt":"20260813","emirate":"Dubai Emirate","first_order_users":"5","new_users":"9"}
+{"aor_id":"500001013","aor_name":"Al Badee Suburb Siyouh Suburb","completed_orders":"1777","dau":"4280","dt":"20260813","emirate":"Sharjah Emirate","first_order_users":"43","new_users":"59"}
+{"aor_id":"500001044","aor_name":"Al Rehmania Suburb","completed_orders":"323","dau":"949","dt":"20260813","emirate":"Sharjah Emirate","first_order_users":"22","new_users":"30"}
+{"aor_id":"300000634","aor_name":"Muwaileh Commercial","completed_orders":"1089","dau":"3382","dt":"20260813","emirate":"Sharjah Emirate","first_order_users":"67","new_users":"62"}
+{"aor_id":"510040004","aor_name":"AI Falah","completed_orders":"710","dau":"1786","dt":"20260814","emirate":"Abu Dhabi  Emirate","first_order_users":"16","new_users":"25"}
+{"aor_id":"500000590","aor_name":"Al Saadah","completed_orders":"1633","dau":"3637","dt":"20260814","emirate":"Abu Dhabi  Emirate","first_order_users":"46","new_users":"48"}
+{"aor_id":"500000603","aor_name":"Al Shahama ","completed_orders":"705","dau":"2104","dt":"20260814","emirate":"Abu Dhabi  Emirate","first_order_users":"41","new_users":"37"}
+{"aor_id":"500000611","aor_name":"Al Shamkhah","completed_orders":"2063","dau":"5087","dt":"20260814","emirate":"Abu Dhabi  Emirate","first_order_users":"79","new_users":"87"}
+{"aor_id":"500000610","aor_name":"Bani Yas","completed_orders":"1466","dau":"4213","dt":"20260814","emirate":"Abu Dhabi  Emirate","first_order_users":"66","new_users":"81"}
+{"aor_id":"510130002","aor_name":"Khalifa city","completed_orders":"1743","dau":"3655","dt":"20260814","emirate":"Abu Dhabi  Emirate","first_order_users":"40","new_users":"41"}
+{"aor_id":"500000609","aor_name":"Shakhbout City","completed_orders":"789","dau":"1966","dt":"20260814","emirate":"Abu Dhabi  Emirate","first_order_users":"33","new_users":"28"}
+{"aor_id":"500000602","aor_name":"Yas Island","completed_orders":"351","dau":"885","dt":"20260814","emirate":"Abu Dhabi  Emirate","first_order_users":"25","new_users":"31"}
+{"aor_id":"500001022","aor_name":"Zakher","completed_orders":"2128","dau":"4830","dt":"20260814","emirate":"Abu Dhabi  Emirate","first_order_users":"51","new_users":"58"}
+{"aor_id":"500000419","aor_name":"Al Khawaneej Al Mizhar","completed_orders":"630","dau":"1557","dt":"20260814","emirate":"Dubai Emirate","first_order_users":"21","new_users":"35"}
+{"aor_id":"500000443","aor_name":"Al Warqa","completed_orders":"1381","dau":"3067","dt":"20260814","emirate":"Dubai Emirate","first_order_users":"33","new_users":"37"}
+{"aor_id":"500000404","aor_name":"Arabian Ranches","completed_orders":"304","dau":"653","dt":"20260814","emirate":"Dubai Emirate","first_order_users":"16","new_users":"15"}
+{"aor_id":"500000362","aor_name":"Barsha South - Arjan","completed_orders":"736","dau":"1364","dt":"20260814","emirate":"Dubai Emirate","first_order_users":"12","new_users":"9"}
+{"aor_id":"500000424","aor_name":"Business Bay 1","completed_orders":"1075","dau":"2206","dt":"20260814","emirate":"Dubai Emirate","first_order_users":"54","new_users":"58"}
+{"aor_id":"500000450","aor_name":"Business Bay 2","completed_orders":"1132","dau":"2132","dt":"20260814","emirate":"Dubai Emirate","first_order_users":"46","new_users":"60"}
+{"aor_id":"500000386","aor_name":"Creek Harbor","completed_orders":"358","dau":"832","dt":"20260814","emirate":"Dubai Emirate","first_order_users":"13","new_users":"15"}
+{"aor_id":"510260000","aor_name":"Damac Hills / Mudon","completed_orders":"425","dau":"803","dt":"20260814","emirate":"Dubai Emirate","first_order_users":"15","new_users":"19"}
+{"aor_id":"500000367","aor_name":"Downtown","completed_orders":"687","dau":"1510","dt":"20260814","emirate":"Dubai Emirate","first_order_users":"36","new_users":"39"}
+{"aor_id":"500000444","aor_name":"Mirdif","completed_orders":"1075","dau":"2300","dt":"20260814","emirate":"Dubai Emirate","first_order_users":"24","new_users":"27"}
+{"aor_id":"500000414","aor_name":"Muhaisnah / Al Mizhar","completed_orders":"910","dau":"2187","dt":"20260814","emirate":"Dubai Emirate","first_order_users":"25","new_users":"34"}
+{"aor_id":"510040002","aor_name":"Naad Al Hamar","completed_orders":"498","dau":"1145","dt":"20260814","emirate":"Dubai Emirate","first_order_users":"5","new_users":"11"}
+{"aor_id":"500001013","aor_name":"Al Badee Suburb Siyouh Suburb","completed_orders":"1887","dau":"4324","dt":"20260814","emirate":"Sharjah Emirate","first_order_users":"65","new_users":"61"}
+{"aor_id":"500001044","aor_name":"Al Rehmania Suburb","completed_orders":"297","dau":"932","dt":"20260814","emirate":"Sharjah Emirate","first_order_users":"18","new_users":"23"}
+{"aor_id":"300000634","aor_name":"Muwaileh Commercial","completed_orders":"1231","dau":"3718","dt":"20260814","emirate":"Sharjah Emirate","first_order_users":"47","new_users":"73"}
+{"aor_id":"510040004","aor_name":"AI Falah","completed_orders":"725","dau":"1732","dt":"20260815","emirate":"Abu Dhabi  Emirate","first_order_users":"25","new_users":"26"}
+{"aor_id":"500000590","aor_name":"Al Saadah","completed_orders":"1462","dau":"3217","dt":"20260815","emirate":"Abu Dhabi  Emirate","first_order_users":"43","new_users":"50"}
+{"aor_id":"500000603","aor_name":"Al Shahama ","completed_orders":"762","dau":"2270","dt":"20260815","emirate":"Abu Dhabi  Emirate","first_order_users":"40","new_users":"43"}
+{"aor_id":"500000611","aor_name":"Al Shamkhah","completed_orders":"2017","dau":"4998","dt":"20260815","emirate":"Abu Dhabi  Emirate","first_order_users":"61","new_users":"67"}
+{"aor_id":"500000610","aor_name":"Bani Yas","completed_orders":"1570","dau":"4497","dt":"20260815","emirate":"Abu Dhabi  Emirate","first_order_users":"67","new_users":"86"}
+{"aor_id":"510130002","aor_name":"Khalifa city","completed_orders":"1767","dau":"3602","dt":"20260815","emirate":"Abu Dhabi  Emirate","first_order_users":"41","new_users":"33"}
+{"aor_id":"500000609","aor_name":"Shakhbout City","completed_orders":"834","dau":"1927","dt":"20260815","emirate":"Abu Dhabi  Emirate","first_order_users":"27","new_users":"27"}
+{"aor_id":"500000602","aor_name":"Yas Island","completed_orders":"337","dau":"853","dt":"20260815","emirate":"Abu Dhabi  Emirate","first_order_users":"35","new_users":"37"}
+{"aor_id":"500001022","aor_name":"Zakher","completed_orders":"2094","dau":"4998","dt":"20260815","emirate":"Abu Dhabi  Emirate","first_order_users":"51","new_users":"63"}
+{"aor_id":"500000419","aor_name":"Al Khawaneej Al Mizhar","completed_orders":"630","dau":"1565","dt":"20260815","emirate":"Dubai Emirate","first_order_users":"13","new_users":"20"}
+{"aor_id":"500000443","aor_name":"Al Warqa","completed_orders":"1418","dau":"3238","dt":"20260815","emirate":"Dubai Emirate","first_order_users":"35","new_users":"40"}
+{"aor_id":"500000404","aor_name":"Arabian Ranches","completed_orders":"314","dau":"669","dt":"20260815","emirate":"Dubai Emirate","first_order_users":"11","new_users":"7"}
+{"aor_id":"500000362","aor_name":"Barsha South - Arjan","completed_orders":"810","dau":"1461","dt":"20260815","emirate":"Dubai Emirate","first_order_users":"8","new_users":"16"}
+{"aor_id":"500000424","aor_name":"Business Bay 1","completed_orders":"738","dau":"1518","dt":"20260815","emirate":"Dubai Emirate","first_order_users":"31","new_users":"27"}
+{"aor_id":"500000450","aor_name":"Business Bay 2","completed_orders":"962","dau":"1813","dt":"20260815","emirate":"Dubai Emirate","first_order_users":"41","new_users":"46"}
+{"aor_id":"500000386","aor_name":"Creek Harbor","completed_orders":"365","dau":"851","dt":"20260815","emirate":"Dubai Emirate","first_order_users":"13","new_users":"17"}
+{"aor_id":"510260000","aor_name":"Damac Hills / Mudon","completed_orders":"439","dau":"852","dt":"20260815","emirate":"Dubai Emirate","first_order_users":"8","new_users":"16"}
+{"aor_id":"500000367","aor_name":"Downtown","completed_orders":"575","dau":"1373","dt":"20260815","emirate":"Dubai Emirate","first_order_users":"37","new_users":"44"}
+{"aor_id":"500000444","aor_name":"Mirdif","completed_orders":"1156","dau":"2496","dt":"20260815","emirate":"Dubai Emirate","first_order_users":"23","new_users":"25"}
+{"aor_id":"500000414","aor_name":"Muhaisnah / Al Mizhar","completed_orders":"828","dau":"2176","dt":"20260815","emirate":"Dubai Emirate","first_order_users":"28","new_users":"39"}
+{"aor_id":"510040002","aor_name":"Naad Al Hamar","completed_orders":"509","dau":"1155","dt":"20260815","emirate":"Dubai Emirate","first_order_users":"6","new_users":"12"}
+{"aor_id":"500001013","aor_name":"Al Badee Suburb Siyouh Suburb","completed_orders":"1946","dau":"4419","dt":"20260815","emirate":"Sharjah Emirate","first_order_users":"64","new_users":"61"}
+{"aor_id":"500001044","aor_name":"Al Rehmania Suburb","completed_orders":"329","dau":"959","dt":"20260815","emirate":"Sharjah Emirate","first_order_users":"19","new_users":"18"}
+{"aor_id":"300000634","aor_name":"Muwaileh Commercial","completed_orders":"1318","dau":"4188","dt":"20260815","emirate":"Sharjah Emirate","first_order_users":"71","new_users":"82"}
+{"aor_id":"510040004","aor_name":"AI Falah","completed_orders":"721","dau":"1800","dt":"20260816","emirate":"Abu Dhabi  Emirate","first_order_users":"27","new_users":"30"}
+{"aor_id":"500000590","aor_name":"Al Saadah","completed_orders":"1571","dau":"3376","dt":"20260816","emirate":"Abu Dhabi  Emirate","first_order_users":"43","new_users":"54"}
+{"aor_id":"500000603","aor_name":"Al Shahama ","completed_orders":"793","dau":"2148","dt":"20260816","emirate":"Abu Dhabi  Emirate","first_order_users":"37","new_users":"40"}
+{"aor_id":"500000611","aor_name":"Al Shamkhah","completed_orders":"2032","dau":"5243","dt":"20260816","emirate":"Abu Dhabi  Emirate","first_order_users":"71","new_users":"88"}
+{"aor_id":"500000610","aor_name":"Bani Yas","completed_orders":"1550","dau":"4463","dt":"20260816","emirate":"Abu Dhabi  Emirate","first_order_users":"70","new_users":"82"}
+{"aor_id":"510130002","aor_name":"Khalifa city","completed_orders":"1862","dau":"3811","dt":"20260816","emirate":"Abu Dhabi  Emirate","first_order_users":"52","new_users":"65"}
+{"aor_id":"500000609","aor_name":"Shakhbout City","completed_orders":"858","dau":"1936","dt":"20260816","emirate":"Abu Dhabi  Emirate","first_order_users":"27","new_users":"27"}
+{"aor_id":"500000602","aor_name":"Yas Island","completed_orders":"285","dau":"754","dt":"20260816","emirate":"Abu Dhabi  Emirate","first_order_users":"32","new_users":"57"}
+{"aor_id":"500001022","aor_name":"Zakher","completed_orders":"2124","dau":"5003","dt":"20260816","emirate":"Abu Dhabi  Emirate","first_order_users":"47","new_users":"71"}
+{"aor_id":"500000419","aor_name":"Al Khawaneej Al Mizhar","completed_orders":"631","dau":"1576","dt":"20260816","emirate":"Dubai Emirate","first_order_users":"15","new_users":"19"}
+{"aor_id":"500000443","aor_name":"Al Warqa","completed_orders":"1499","dau":"3357","dt":"20260816","emirate":"Dubai Emirate","first_order_users":"42","new_users":"38"}
+{"aor_id":"500000404","aor_name":"Arabian Ranches","completed_orders":"281","dau":"604","dt":"20260816","emirate":"Dubai Emirate","first_order_users":"11","new_users":"9"}
+{"aor_id":"500000362","aor_name":"Barsha South - Arjan","completed_orders":"824","dau":"1432","dt":"20260816","emirate":"Dubai Emirate","first_order_users":"10","new_users":"9"}
+{"aor_id":"500000424","aor_name":"Business Bay 1","completed_orders":"652","dau":"1168","dt":"20260816","emirate":"Dubai Emirate","first_order_users":"36","new_users":"41"}
+{"aor_id":"500000450","aor_name":"Business Bay 2","completed_orders":"805","dau":"1445","dt":"20260816","emirate":"Dubai Emirate","first_order_users":"30","new_users":"52"}
+{"aor_id":"500000386","aor_name":"Creek Harbor","completed_orders":"332","dau":"750","dt":"20260816","emirate":"Dubai Emirate","first_order_users":"12","new_users":"17"}
+{"aor_id":"510260000","aor_name":"Damac Hills / Mudon","completed_orders":"430","dau":"811","dt":"20260816","emirate":"Dubai Emirate","first_order_users":"6","new_users":"7"}
+{"aor_id":"500000367","aor_name":"Downtown","completed_orders":"498","dau":"1208","dt":"20260816","emirate":"Dubai Emirate","first_order_users":"22","new_users":"37"}
+{"aor_id":"500000444","aor_name":"Mirdif","completed_orders":"1187","dau":"2543","dt":"20260816","emirate":"Dubai Emirate","first_order_users":"30","new_users":"24"}
+{"aor_id":"500000414","aor_name":"Muhaisnah / Al Mizhar","completed_orders":"884","dau":"2298","dt":"20260816","emirate":"Dubai Emirate","first_order_users":"44","new_users":"49"}
+{"aor_id":"510040002","aor_name":"Naad Al Hamar","completed_orders":"511","dau":"1120","dt":"20260816","emirate":"Dubai Emirate","first_order_users":"5","new_users":"7"}
+{"aor_id":"500001013","aor_name":"Al Badee Suburb Siyouh Suburb","completed_orders":"1985","dau":"4574","dt":"20260816","emirate":"Sharjah Emirate","first_order_users":"67","new_users":"72"}
+{"aor_id":"500001044","aor_name":"Al Rehmania Suburb","completed_orders":"232","dau":"817","dt":"20260816","emirate":"Sharjah Emirate","first_order_users":"9","new_users":"31"}
+{"aor_id":"300000634","aor_name":"Muwaileh Commercial","completed_orders":"1405","dau":"4335","dt":"20260816","emirate":"Sharjah Emirate","first_order_users":"64","new_users":"73"}
+{"aor_id":"510040004","aor_name":"AI Falah","completed_orders":"622","dau":"1670","dt":"20260817","emirate":"Abu Dhabi  Emirate","first_order_users":"15","new_users":"22"}
+{"aor_id":"500000590","aor_name":"Al Saadah","completed_orders":"1698","dau":"3744","dt":"20260817","emirate":"Abu Dhabi  Emirate","first_order_users":"48","new_users":"52"}
+{"aor_id":"500000603","aor_name":"Al Shahama ","completed_orders":"581","dau":"1865","dt":"20260817","emirate":"Abu Dhabi  Emirate","first_order_users":"28","new_users":"34"}
+{"aor_id":"500000611","aor_name":"Al Shamkhah","completed_orders":"1831","dau":"4834","dt":"20260817","emirate":"Abu Dhabi  Emirate","first_order_users":"74","new_users":"89"}

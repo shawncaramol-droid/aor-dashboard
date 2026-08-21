@@ -1,0 +1,102 @@
+{"qid":"2090664276257705994","url":"https://wenshu-s3-eu.mykeeta.com/v2/wsjr_904/T20260821_125620_02127_r68ww.csv?AWSAccessKeyId=SRV_9eYsj1YVsrI4T9I5zq26ERmppJonfpcM&Expires=1787291860&Signature=OVfDuw647XeUWYlmWiRqcaS6dlU%3D","totalRows":168}
+{"columns":["dt","aor_id","aor_name","emirate","sessions","first_visit_sessions","first_visit_devices"]}
+{"aor_id":"510040004","aor_name":"AI Falah","dt":"20260813","emirate":"Abu Dhabi  Emirate","first_visit_devices":"25","first_visit_sessions":"31","sessions":"3261"}
+{"aor_id":"500000590","aor_name":"Al Saadah","dt":"20260813","emirate":"Abu Dhabi  Emirate","first_visit_devices":"68","first_visit_sessions":"110","sessions":"7410"}
+{"aor_id":"500000603","aor_name":"Al Shahama ","dt":"20260813","emirate":"Abu Dhabi  Emirate","first_visit_devices":"42","first_visit_sessions":"69","sessions":"3767"}
+{"aor_id":"500000611","aor_name":"Al Shamkhah","dt":"20260813","emirate":"Abu Dhabi  Emirate","first_visit_devices":"95","first_visit_sessions":"153","sessions":"8994"}
+{"aor_id":"500000610","aor_name":"Bani Yas","dt":"20260813","emirate":"Abu Dhabi  Emirate","first_visit_devices":"86","first_visit_sessions":"136","sessions":"7167"}
+{"aor_id":"510130002","aor_name":"Khalifa city","dt":"20260813","emirate":"Abu Dhabi  Emirate","first_visit_devices":"55","first_visit_sessions":"85","sessions":"6925"}
+{"aor_id":"500000609","aor_name":"Shakhbout City","dt":"20260813","emirate":"Abu Dhabi  Emirate","first_visit_devices":"42","first_visit_sessions":"61","sessions":"3607"}
+{"aor_id":"500000602","aor_name":"Yas Island","dt":"20260813","emirate":"Abu Dhabi  Emirate","first_visit_devices":"44","first_visit_sessions":"72","sessions":"1674"}
+{"aor_id":"500001022","aor_name":"Zakher","dt":"20260813","emirate":"Abu Dhabi  Emirate","first_visit_devices":"81","first_visit_sessions":"114","sessions":"8667"}
+{"aor_id":"500000419","aor_name":"Al Khawaneej Al Mizhar","dt":"20260813","emirate":"Dubai Emirate","first_visit_devices":"33","first_visit_sessions":"50","sessions":"2519"}
+{"aor_id":"500000443","aor_name":"Al Warqa","dt":"20260813","emirate":"Dubai Emirate","first_visit_devices":"48","first_visit_sessions":"74","sessions":"5001"}
+{"aor_id":"500000404","aor_name":"Arabian Ranches","dt":"20260813","emirate":"Dubai Emirate","first_visit_devices":"15","first_visit_sessions":"21","sessions":"1034"}
+{"aor_id":"500000362","aor_name":"Barsha South - Arjan","dt":"20260813","emirate":"Dubai Emirate","first_visit_devices":"16","first_visit_sessions":"24","sessions":"2438"}
+{"aor_id":"500000424","aor_name":"Business Bay 1","dt":"20260813","emirate":"Dubai Emirate","first_visit_devices":"53","first_visit_sessions":"90","sessions":"4320"}
+{"aor_id":"500000450","aor_name":"Business Bay 2","dt":"20260813","emirate":"Dubai Emirate","first_visit_devices":"53","first_visit_sessions":"94","sessions":"3996"}
+{"aor_id":"500000386","aor_name":"Creek Harbor","dt":"20260813","emirate":"Dubai Emirate","first_visit_devices":"24","first_visit_sessions":"44","sessions":"1676"}
+{"aor_id":"510260000","aor_name":"Damac Hills / Mudon","dt":"20260813","emirate":"Dubai Emirate","first_visit_devices":"8","first_visit_sessions":"12","sessions":"1369"}
+{"aor_id":"500000367","aor_name":"Downtown","dt":"20260813","emirate":"Dubai Emirate","first_visit_devices":"46","first_visit_sessions":"77","sessions":"2977"}
+{"aor_id":"500000444","aor_name":"Mirdif","dt":"20260813","emirate":"Dubai Emirate","first_visit_devices":"37","first_visit_sessions":"56","sessions":"3585"}
+{"aor_id":"500000414","aor_name":"Muhaisnah / Al Mizhar","dt":"20260813","emirate":"Dubai Emirate","first_visit_devices":"60","first_visit_sessions":"106","sessions":"3981"}
+{"aor_id":"510040002","aor_name":"Naad Al Hamar","dt":"20260813","emirate":"Dubai Emirate","first_visit_devices":"6","first_visit_sessions":"9","sessions":"1860"}
+{"aor_id":"500001013","aor_name":"Al Badee Suburb Siyouh Suburb","dt":"20260813","emirate":"Sharjah Emirate","first_visit_devices":"71","first_visit_sessions":"92","sessions":"7742"}
+{"aor_id":"500001044","aor_name":"Al Rehmania Suburb","dt":"20260813","emirate":"Sharjah Emirate","first_visit_devices":"40","first_visit_sessions":"60","sessions":"1761"}
+{"aor_id":"300000634","aor_name":"Muwaileh Commercial","dt":"20260813","emirate":"Sharjah Emirate","first_visit_devices":"74","first_visit_sessions":"127","sessions":"5738"}
+{"aor_id":"510040004","aor_name":"AI Falah","dt":"20260814","emirate":"Abu Dhabi  Emirate","first_visit_devices":"33","first_visit_sessions":"44","sessions":"3199"}
+{"aor_id":"500000590","aor_name":"Al Saadah","dt":"20260814","emirate":"Abu Dhabi  Emirate","first_visit_devices":"56","first_visit_sessions":"100","sessions":"6719"}
+{"aor_id":"500000603","aor_name":"Al Shahama ","dt":"20260814","emirate":"Abu Dhabi  Emirate","first_visit_devices":"45","first_visit_sessions":"69","sessions":"3768"}
+{"aor_id":"500000611","aor_name":"Al Shamkhah","dt":"20260814","emirate":"Abu Dhabi  Emirate","first_visit_devices":"101","first_visit_sessions":"152","sessions":"9255"}
+{"aor_id":"500000610","aor_name":"Bani Yas","dt":"20260814","emirate":"Abu Dhabi  Emirate","first_visit_devices":"75","first_visit_sessions":"134","sessions":"7572"}
+{"aor_id":"510130002","aor_name":"Khalifa city","dt":"20260814","emirate":"Abu Dhabi  Emirate","first_visit_devices":"52","first_visit_sessions":"83","sessions":"6802"}
+{"aor_id":"500000609","aor_name":"Shakhbout City","dt":"20260814","emirate":"Abu Dhabi  Emirate","first_visit_devices":"37","first_visit_sessions":"62","sessions":"3663"}
+{"aor_id":"500000602","aor_name":"Yas Island","dt":"20260814","emirate":"Abu Dhabi  Emirate","first_visit_devices":"48","first_visit_sessions":"97","sessions":"1789"}
+{"aor_id":"500001022","aor_name":"Zakher","dt":"20260814","emirate":"Abu Dhabi  Emirate","first_visit_devices":"82","first_visit_sessions":"143","sessions":"9006"}
+{"aor_id":"500000419","aor_name":"Al Khawaneej Al Mizhar","dt":"20260814","emirate":"Dubai Emirate","first_visit_devices":"35","first_visit_sessions":"57","sessions":"2779"}
+{"aor_id":"500000443","aor_name":"Al Warqa","dt":"20260814","emirate":"Dubai Emirate","first_visit_devices":"58","first_visit_sessions":"94","sessions":"5477"}
+{"aor_id":"500000404","aor_name":"Arabian Ranches","dt":"20260814","emirate":"Dubai Emirate","first_visit_devices":"16","first_visit_sessions":"27","sessions":"1178"}
+{"aor_id":"500000362","aor_name":"Barsha South - Arjan","dt":"20260814","emirate":"Dubai Emirate","first_visit_devices":"13","first_visit_sessions":"26","sessions":"2514"}
+{"aor_id":"500000424","aor_name":"Business Bay 1","dt":"20260814","emirate":"Dubai Emirate","first_visit_devices":"74","first_visit_sessions":"128","sessions":"4439"}
+{"aor_id":"500000450","aor_name":"Business Bay 2","dt":"20260814","emirate":"Dubai Emirate","first_visit_devices":"73","first_visit_sessions":"120","sessions":"4197"}
+{"aor_id":"500000386","aor_name":"Creek Harbor","dt":"20260814","emirate":"Dubai Emirate","first_visit_devices":"23","first_visit_sessions":"39","sessions":"1669"}
+{"aor_id":"510260000","aor_name":"Damac Hills / Mudon","dt":"20260814","emirate":"Dubai Emirate","first_visit_devices":"21","first_visit_sessions":"31","sessions":"1512"}
+{"aor_id":"500000367","aor_name":"Downtown","dt":"20260814","emirate":"Dubai Emirate","first_visit_devices":"60","first_visit_sessions":"98","sessions":"3050"}
+{"aor_id":"500000444","aor_name":"Mirdif","dt":"20260814","emirate":"Dubai Emirate","first_visit_devices":"37","first_visit_sessions":"61","sessions":"4215"}
+{"aor_id":"500000414","aor_name":"Muhaisnah / Al Mizhar","dt":"20260814","emirate":"Dubai Emirate","first_visit_devices":"39","first_visit_sessions":"65","sessions":"3991"}
+{"aor_id":"510040002","aor_name":"Naad Al Hamar","dt":"20260814","emirate":"Dubai Emirate","first_visit_devices":"9","first_visit_sessions":"20","sessions":"2067"}
+{"aor_id":"500001013","aor_name":"Al Badee Suburb Siyouh Suburb","dt":"20260814","emirate":"Sharjah Emirate","first_visit_devices":"87","first_visit_sessions":"132","sessions":"7891"}
+{"aor_id":"500001044","aor_name":"Al Rehmania Suburb","dt":"20260814","emirate":"Sharjah Emirate","first_visit_devices":"24","first_visit_sessions":"31","sessions":"1681"}
+{"aor_id":"300000634","aor_name":"Muwaileh Commercial","dt":"20260814","emirate":"Sharjah Emirate","first_visit_devices":"72","first_visit_sessions":"115","sessions":"6324"}
+{"aor_id":"510040004","aor_name":"AI Falah","dt":"20260815","emirate":"Abu Dhabi  Emirate","first_visit_devices":"29","first_visit_sessions":"52","sessions":"3127"}
+{"aor_id":"500000590","aor_name":"Al Saadah","dt":"20260815","emirate":"Abu Dhabi  Emirate","first_visit_devices":"65","first_visit_sessions":"106","sessions":"5982"}
+{"aor_id":"500000603","aor_name":"Al Shahama ","dt":"20260815","emirate":"Abu Dhabi  Emirate","first_visit_devices":"49","first_visit_sessions":"61","sessions":"4088"}
+{"aor_id":"500000611","aor_name":"Al Shamkhah","dt":"20260815","emirate":"Abu Dhabi  Emirate","first_visit_devices":"88","first_visit_sessions":"147","sessions":"9123"}
+{"aor_id":"500000610","aor_name":"Bani Yas","dt":"20260815","emirate":"Abu Dhabi  Emirate","first_visit_devices":"102","first_visit_sessions":"159","sessions":"8091"}
+{"aor_id":"510130002","aor_name":"Khalifa city","dt":"20260815","emirate":"Abu Dhabi  Emirate","first_visit_devices":"64","first_visit_sessions":"112","sessions":"6686"}
+{"aor_id":"500000609","aor_name":"Shakhbout City","dt":"20260815","emirate":"Abu Dhabi  Emirate","first_visit_devices":"37","first_visit_sessions":"50","sessions":"3637"}
+{"aor_id":"500000602","aor_name":"Yas Island","dt":"20260815","emirate":"Abu Dhabi  Emirate","first_visit_devices":"55","first_visit_sessions":"101","sessions":"1683"}
+{"aor_id":"500001022","aor_name":"Zakher","dt":"20260815","emirate":"Abu Dhabi  Emirate","first_visit_devices":"78","first_visit_sessions":"129","sessions":"9146"}
+{"aor_id":"500000419","aor_name":"Al Khawaneej Al Mizhar","dt":"20260815","emirate":"Dubai Emirate","first_visit_devices":"29","first_visit_sessions":"43","sessions":"2728"}
+{"aor_id":"500000443","aor_name":"Al Warqa","dt":"20260815","emirate":"Dubai Emirate","first_visit_devices":"49","first_visit_sessions":"87","sessions":"5868"}
+{"aor_id":"500000404","aor_name":"Arabian Ranches","dt":"20260815","emirate":"Dubai Emirate","first_visit_devices":"14","first_visit_sessions":"25","sessions":"1278"}
+{"aor_id":"500000362","aor_name":"Barsha South - Arjan","dt":"20260815","emirate":"Dubai Emirate","first_visit_devices":"17","first_visit_sessions":"24","sessions":"2721"}
+{"aor_id":"500000424","aor_name":"Business Bay 1","dt":"20260815","emirate":"Dubai Emirate","first_visit_devices":"45","first_visit_sessions":"69","sessions":"2919"}
+{"aor_id":"500000450","aor_name":"Business Bay 2","dt":"20260815","emirate":"Dubai Emirate","first_visit_devices":"67","first_visit_sessions":"112","sessions":"3652"}
+{"aor_id":"500000386","aor_name":"Creek Harbor","dt":"20260815","emirate":"Dubai Emirate","first_visit_devices":"20","first_visit_sessions":"31","sessions":"1667"}
+{"aor_id":"510260000","aor_name":"Damac Hills / Mudon","dt":"20260815","emirate":"Dubai Emirate","first_visit_devices":"22","first_visit_sessions":"37","sessions":"1566"}
+{"aor_id":"500000367","aor_name":"Downtown","dt":"20260815","emirate":"Dubai Emirate","first_visit_devices":"64","first_visit_sessions":"154","sessions":"2799"}
+{"aor_id":"500000444","aor_name":"Mirdif","dt":"20260815","emirate":"Dubai Emirate","first_visit_devices":"32","first_visit_sessions":"58","sessions":"4410"}
+{"aor_id":"500000414","aor_name":"Muhaisnah / Al Mizhar","dt":"20260815","emirate":"Dubai Emirate","first_visit_devices":"58","first_visit_sessions":"84","sessions":"3973"}
+{"aor_id":"510040002","aor_name":"Naad Al Hamar","dt":"20260815","emirate":"Dubai Emirate","first_visit_devices":"15","first_visit_sessions":"22","sessions":"1992"}
+{"aor_id":"500001013","aor_name":"Al Badee Suburb Siyouh Suburb","dt":"20260815","emirate":"Sharjah Emirate","first_visit_devices":"76","first_visit_sessions":"128","sessions":"8045"}
+{"aor_id":"500001044","aor_name":"Al Rehmania Suburb","dt":"20260815","emirate":"Sharjah Emirate","first_visit_devices":"21","first_visit_sessions":"48","sessions":"1754"}
+{"aor_id":"300000634","aor_name":"Muwaileh Commercial","dt":"20260815","emirate":"Sharjah Emirate","first_visit_devices":"92","first_visit_sessions":"153","sessions":"7157"}
+{"aor_id":"510040004","aor_name":"AI Falah","dt":"20260816","emirate":"Abu Dhabi  Emirate","first_visit_devices":"27","first_visit_sessions":"44","sessions":"3233"}
+{"aor_id":"500000590","aor_name":"Al Saadah","dt":"20260816","emirate":"Abu Dhabi  Emirate","first_visit_devices":"56","first_visit_sessions":"88","sessions":"6134"}
+{"aor_id":"500000603","aor_name":"Al Shahama ","dt":"20260816","emirate":"Abu Dhabi  Emirate","first_visit_devices":"50","first_visit_sessions":"73","sessions":"3969"}
+{"aor_id":"500000611","aor_name":"Al Shamkhah","dt":"20260816","emirate":"Abu Dhabi  Emirate","first_visit_devices":"104","first_visit_sessions":"161","sessions":"9537"}
+{"aor_id":"500000610","aor_name":"Bani Yas","dt":"20260816","emirate":"Abu Dhabi  Emirate","first_visit_devices":"100","first_visit_sessions":"167","sessions":"7965"}
+{"aor_id":"510130002","aor_name":"Khalifa city","dt":"20260816","emirate":"Abu Dhabi  Emirate","first_visit_devices":"60","first_visit_sessions":"88","sessions":"6931"}
+{"aor_id":"500000609","aor_name":"Shakhbout City","dt":"20260816","emirate":"Abu Dhabi  Emirate","first_visit_devices":"39","first_visit_sessions":"61","sessions":"3597"}
+{"aor_id":"500000602","aor_name":"Yas Island","dt":"20260816","emirate":"Abu Dhabi  Emirate","first_visit_devices":"66","first_visit_sessions":"118","sessions":"1464"}
+{"aor_id":"500001022","aor_name":"Zakher","dt":"20260816","emirate":"Abu Dhabi  Emirate","first_visit_devices":"86","first_visit_sessions":"140","sessions":"8985"}
+{"aor_id":"500000419","aor_name":"Al Khawaneej Al Mizhar","dt":"20260816","emirate":"Dubai Emirate","first_visit_devices":"31","first_visit_sessions":"52","sessions":"2825"}
+{"aor_id":"500000443","aor_name":"Al Warqa","dt":"20260816","emirate":"Dubai Emirate","first_visit_devices":"53","first_visit_sessions":"79","sessions":"5931"}
+{"aor_id":"500000404","aor_name":"Arabian Ranches","dt":"20260816","emirate":"Dubai Emirate","first_visit_devices":"16","first_visit_sessions":"30","sessions":"1089"}
+{"aor_id":"500000362","aor_name":"Barsha South - Arjan","dt":"20260816","emirate":"Dubai Emirate","first_visit_devices":"11","first_visit_sessions":"17","sessions":"2564"}
+{"aor_id":"500000424","aor_name":"Business Bay 1","dt":"20260816","emirate":"Dubai Emirate","first_visit_devices":"47","first_visit_sessions":"79","sessions":"2374"}
+{"aor_id":"500000450","aor_name":"Business Bay 2","dt":"20260816","emirate":"Dubai Emirate","first_visit_devices":"65","first_visit_sessions":"119","sessions":"2881"}
+{"aor_id":"500000386","aor_name":"Creek Harbor","dt":"20260816","emirate":"Dubai Emirate","first_visit_devices":"25","first_visit_sessions":"39","sessions":"1535"}
+{"aor_id":"510260000","aor_name":"Damac Hills / Mudon","dt":"20260816","emirate":"Dubai Emirate","first_visit_devices":"20","first_visit_sessions":"37","sessions":"1541"}
+{"aor_id":"500000367","aor_name":"Downtown","dt":"20260816","emirate":"Dubai Emirate","first_visit_devices":"50","first_visit_sessions":"92","sessions":"2423"}
+{"aor_id":"500000444","aor_name":"Mirdif","dt":"20260816","emirate":"Dubai Emirate","first_visit_devices":"30","first_visit_sessions":"37","sessions":"4589"}
+{"aor_id":"500000414","aor_name":"Muhaisnah / Al Mizhar","dt":"20260816","emirate":"Dubai Emirate","first_visit_devices":"66","first_visit_sessions":"119","sessions":"4149"}
+{"aor_id":"510040002","aor_name":"Naad Al Hamar","dt":"20260816","emirate":"Dubai Emirate","first_visit_devices":"13","first_visit_sessions":"17","sessions":"2025"}
+{"aor_id":"500001013","aor_name":"Al Badee Suburb Siyouh Suburb","dt":"20260816","emirate":"Sharjah Emirate","first_visit_devices":"97","first_visit_sessions":"162","sessions":"8322"}
+{"aor_id":"500001044","aor_name":"Al Rehmania Suburb","dt":"20260816","emirate":"Sharjah Emirate","first_visit_devices":"30","first_visit_sessions":"43","sessions":"1440"}
+{"aor_id":"300000634","aor_name":"Muwaileh Commercial","dt":"20260816","emirate":"Sharjah Emirate","first_visit_devices":"94","first_visit_sessions":"140","sessions":"7439"}
+{"aor_id":"510040004","aor_name":"AI Falah","dt":"20260817","emirate":"Abu Dhabi  Emirate","first_visit_devices":"27","first_visit_sessions":"53","sessions":"2968"}
+{"aor_id":"500000590","aor_name":"Al Saadah","dt":"20260817","emirate":"Abu Dhabi  Emirate","first_visit_devices":"64","first_visit_sessions":"108","sessions":"6816"}
+{"aor_id":"500000603","aor_name":"Al Shahama ","dt":"20260817","emirate":"Abu Dhabi  Emirate","first_visit_devices":"42","first_visit_sessions":"61","sessions":"3400"}
+{"aor_id":"500000611","aor_name":"Al Shamkhah","dt":"20260817","emirate":"Abu Dhabi  Emirate","first_visit_devices":"96","first_visit_sessions":"142","sessions":"8736"}
