@@ -12,7 +12,7 @@ LEFT JOIN (
     FROM mart_sailor_global.dim_sailor_aor_org_flat 
     WHERE region = 'AE'
 ) d ON s.aor_id = d.aor_id
-WHERE s.dt BETWEEN '20260813' AND '20260819'
+WHERE s.dt BETWEEN '20260814' AND '20260820'
   AND s.region = 'AE'
   AND s.is_dau = 1
   AND s.aor_id IN (

@@ -3,7 +3,7 @@ WITH sab_snapshot AS (
     FROM mart_sailor_algorithm.aggr_user_sab_level_manual_result_ae_d
     WHERE dt = (
         SELECT MAX(dt) FROM mart_sailor_algorithm.aggr_user_sab_level_manual_result_ae_d
-        WHERE dt <= '20260819'
+        WHERE dt <= '20260820'
     )
 )
 SELECT
@@ -24,7 +24,7 @@ LEFT JOIN (
     FROM mart_sailor_global.dim_sailor_aor_org_flat 
     WHERE region = 'AE'
 ) d ON CAST(f.today_visit_most_aor_id AS int) = d.aor_id
-WHERE f.dt BETWEEN '20260813' AND '20260819'
+WHERE f.dt BETWEEN '20260814' AND '20260820'
   AND f.region = 'AE'
   AND f.today_visit_most_aor_id IN (
     '500000419', '500000414', '500000444', '500000443', '510040002', '500000386',

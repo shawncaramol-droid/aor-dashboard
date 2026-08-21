@@ -1,28 +1,4 @@
 dt,aor_id,aor_name,emirate,sessions,first_visit_sessions,first_visit_devices
-20260813,510040004,AI Falah,Abu Dhabi  Emirate,3261,31,25
-20260813,500000590,Al Saadah,Abu Dhabi  Emirate,7410,110,68
-20260813,500000603,"Al Shahama ",Abu Dhabi  Emirate,3767,69,42
-20260813,500000611,Al Shamkhah,Abu Dhabi  Emirate,8994,153,95
-20260813,500000610,Bani Yas,Abu Dhabi  Emirate,7167,136,86
-20260813,510130002,Khalifa city,Abu Dhabi  Emirate,6925,85,55
-20260813,500000609,Shakhbout City,Abu Dhabi  Emirate,3607,61,42
-20260813,500000602,Yas Island,Abu Dhabi  Emirate,1674,72,44
-20260813,500001022,Zakher,Abu Dhabi  Emirate,8667,114,81
-20260813,500000419,Al Khawaneej Al Mizhar,Dubai Emirate,2519,50,33
-20260813,500000443,Al Warqa,Dubai Emirate,5001,74,48
-20260813,500000404,Arabian Ranches,Dubai Emirate,1034,21,15
-20260813,500000362,Barsha South - Arjan,Dubai Emirate,2438,24,16
-20260813,500000424,Business Bay 1,Dubai Emirate,4320,90,53
-20260813,500000450,Business Bay 2,Dubai Emirate,3996,94,53
-20260813,500000386,Creek Harbor,Dubai Emirate,1676,44,24
-20260813,510260000,Damac Hills / Mudon,Dubai Emirate,1369,12,8
-20260813,500000367,Downtown,Dubai Emirate,2977,77,46
-20260813,500000444,Mirdif,Dubai Emirate,3585,56,37
-20260813,500000414,Muhaisnah / Al Mizhar,Dubai Emirate,3981,106,60
-20260813,510040002,Naad Al Hamar,Dubai Emirate,1860,9,6
-20260813,500001013,Al Badee Suburb Siyouh Suburb,Sharjah Emirate,7742,92,71
-20260813,500001044,Al Rehmania Suburb,Sharjah Emirate,1761,60,40
-20260813,300000634,Muwaileh Commercial,Sharjah Emirate,5738,127,74
 20260814,510040004,AI Falah,Abu Dhabi  Emirate,3199,44,33
 20260814,500000590,Al Saadah,Abu Dhabi  Emirate,6719,100,56
 20260814,500000603,"Al Shahama ",Abu Dhabi  Emirate,3768,69,45
@@ -167,3 +143,27 @@ dt,aor_id,aor_name,emirate,sessions,first_visit_sessions,first_visit_devices
 20260819,500001013,Al Badee Suburb Siyouh Suburb,Sharjah Emirate,8253,134,72
 20260819,500001044,Al Rehmania Suburb,Sharjah Emirate,1551,32,20
 20260819,300000634,Muwaileh Commercial,Sharjah Emirate,5526,92,57
+20260820,510040004,AI Falah,Abu Dhabi  Emirate,2932,50,30
+20260820,500000590,Al Saadah,Abu Dhabi  Emirate,7266,88,48
+20260820,500000603,"Al Shahama ",Abu Dhabi  Emirate,3532,59,37
+20260820,500000611,Al Shamkhah,Abu Dhabi  Emirate,8814,130,78
+20260820,500000610,Bani Yas,Abu Dhabi  Emirate,7204,123,77
+20260820,510130002,Khalifa city,Abu Dhabi  Emirate,6837,99,57
+20260820,500000609,Shakhbout City,Abu Dhabi  Emirate,3673,49,30
+20260820,500000602,Yas Island,Abu Dhabi  Emirate,1965,62,38
+20260820,500001022,Zakher,Abu Dhabi  Emirate,8291,124,80
+20260820,500000419,Al Khawaneej Al Mizhar,Dubai Emirate,2467,40,18
+20260820,500000443,Al Warqa,Dubai Emirate,5103,78,50
+20260820,500000404,Arabian Ranches,Dubai Emirate,1062,25,13
+20260820,500000362,Barsha South - Arjan,Dubai Emirate,2380,28,15
+20260820,500000424,Business Bay 1,Dubai Emirate,4226,89,56
+20260820,500000450,Business Bay 2,Dubai Emirate,3727,84,54
+20260820,500000386,Creek Harbor,Dubai Emirate,1556,42,22
+20260820,510260000,Damac Hills / Mudon,Dubai Emirate,1423,24,13
+20260820,500000367,Downtown,Dubai Emirate,2806,100,51
+20260820,500000444,Mirdif,Dubai Emirate,3948,62,42
+20260820,500000414,Muhaisnah / Al Mizhar,Dubai Emirate,3768,73,49
+20260820,510040002,Naad Al Hamar,Dubai Emirate,1851,24,16
+20260820,500001013,Al Badee Suburb Siyouh Suburb,Sharjah Emirate,8569,119,76
+20260820,500001044,Al Rehmania Suburb,Sharjah Emirate,1609,37,23
+20260820,300000634,Muwaileh Commercial,Sharjah Emirate,5557,91,59
